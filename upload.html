@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cập nhật dữ liệu · Báo cáo Xếp Giấy</title>
+<script src="config.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="parse-xlsx.js"></script>
+<style>
+:root{--bg:#f4f0ec;--card:#fff;--border:#e8ddd6;--text:#2c1810;--muted:#8a7060;--red:#b71c1c;--red-deep:#8b0000;--green:#2e7d32;--green-bg:#e8f5e9;--red-bg:#ffebee;--warn:#9a6700;--warn-bg:#fff4d6}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1412;--card:#2a1d19;--border:#4a3830;--text:#f3e8e2;--muted:#b9a094;--red:#ef7b72;--red-deep:#d9534f;--green:#7fd18a;--green-bg:#1f3a25;--red-bg:#43211f;--warn:#ffd166;--warn-bg:#40351a}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,'Segoe UI',sans-serif;padding:24px 16px}
+.wrap{max-width:720px;margin:0 auto;display:grid;gap:16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px}
+h1{font-size:20px;margin:0 0 4px;color:var(--red-deep)}
+h2{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+p{margin:0 0 8px;font-size:14px;line-height:1.5}
+.muted{color:var(--muted);font-size:13px}
+label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+input[type=password],input[type=file]{width:100%;border:1px solid var(--border);background:var(--bg);color:var(--text);border-radius:10px;padding:10px;font:inherit}
+.btn{border:none;border-radius:10px;padding:10px 16px;font:inherit;font-weight:600;cursor:pointer;background:var(--red);color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--red);border:1px solid var(--red)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+table{border-collapse:collapse;width:100%;font-size:14px}
+td,th{padding:7px 8px;border-bottom:1px solid var(--border);text-align:left}
+th{color:var(--muted);font-weight:600;font-size:12px}
+td.n{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.msg{border-radius:10px;padding:10px 12px;font-size:14px}
+.msg.ok{background:var(--green-bg);color:var(--green)}.msg.bad{background:var(--red-bg);color:var(--red)}.msg.warn{background:var(--warn-bg);color:var(--warn)}
+a{color:var(--red);font-weight:600}
+ol{margin:0;padding-left:20px;font-size:14px;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>Cập nhật dữ liệu báo cáo</h1>
+    <p class="muted">Tải file <b>Báo cáo Bộ phận Xếp Giấy.xlsx</b> lên. Số liệu mới thay thế toàn bộ số liệu cũ trên báo cáo; bản cũ được giữ lại để khôi phục.</p>
+    <p><a href="index.html">← Về báo cáo</a></p>
+  </div>
+
+  <div class="card">
+    <h2>Bước 1 · Chọn file</h2>
+    <label for="file">File Excel (.xlsx) hoặc dashboard_data.json</label>
+    <input type="file" id="file" accept=".xlsx,.xlsm,.json">
+    <p class="muted" style="margin-top:8px">Cần có 3 sheet: <b>Nhap_TG</b>, <b>Nhap_SP</b>, <b>Nhap_BTP</b> như file mẫu. File được đọc ngay trên máy bạn, chưa gửi đi đâu.</p>
+    <div id="status" style="margin-top:10px" hidden></div>
+  </div>
+
+  <div class="card" id="prev" hidden>
+    <h2>Bước 2 · Kiểm tra số liệu</h2>
+    <table>
+      <tbody id="pvBody"></tbody>
+    </table>
+    <div id="warn" style="margin-top:12px" hidden></div>
+  </div>
+
+  <div class="card" id="pub" hidden>
+    <h2>Bước 3 · Đẩy lên báo cáo</h2>
+    <label for="pw">Mật khẩu</label>
+    <input type="password" id="pw" autocomplete="current-password" placeholder="Mật khẩu đã đặt trong schema.sql">
+    <div class="row" style="margin-top:12px">
+      <button class="btn" id="go">Đẩy lên báo cáo</button>
+      <button class="btn ghost" id="undo" type="button">Khôi phục bản trước</button>
+    </div>
+    <div id="res" style="margin-top:12px" hidden></div>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const CFG = window.APP_CONFIG || {};
+let report = null;
+
+function show(id, cls, text) { const e = $(id); e.hidden = false; e.className = 'msg ' + cls; e.textContent = text; }
+function H() { const h = { apikey: CFG.SUPABASE_ANON_KEY, 'Content-Type': 'application/json' }; if ((CFG.SUPABASE_ANON_KEY || '').indexOf('eyJ') === 0) h.Authorization = 'Bearer ' + CFG.SUPABASE_ANON_KEY; return h; }
+async function rpc(fn, args) {
+  if (!CFG.SUPABASE_URL || CFG.SUPABASE_URL.indexOf('YOUR') >= 0) throw new Error('Chưa cấu hình config.js.');
+  const r = await fetch(CFG.SUPABASE_URL + '/rest/v1/rpc/' + fn, { method: 'POST', headers: H(), body: JSON.stringify(args) });
+  const t = await r.text(); let j = null; try { j = t ? JSON.parse(t) : null; } catch (e) {}
+  if (!r.ok) throw new Error((j && j.message) || 'Không kết nối được máy chủ.');
+  return j;
+}
+const nf = n => Number(n).toLocaleString('vi-VN');
+
+$('file').onchange = async e => {
+  const f = e.target.files[0];
+  report = null; $('prev').hidden = $('pub').hidden = true; $('status').hidden = true;
+  if (!f) return;
+  try {
+    if (/\.json$/i.test(f.name)) {
+      const j = JSON.parse(await f.text());
+      if (!Array.isArray(j.tg) || !Array.isArray(j.pd) || !Array.isArray(j.btp)) throw new Error('File JSON thiếu tg, pd hoặc btp.');
+      report = XgParse.finish(j.tg, j.pd, j.btp, new Date());
+    } else {
+      if (typeof XLSX === 'undefined') throw new Error('Chưa tải được thư viện đọc Excel. Kiểm tra mạng rồi tải lại trang.');
+      const wb = XLSX.read(await f.arrayBuffer(), { type: 'array' });
+      report = XgParse.buildReport(wb, XLSX, new Date());
+    }
+  } catch (err) { show('status', 'bad', err.message || 'Không đọc được file.'); return; }
+  render();
+};
+
+function render() {
+  const m = report.meta, tgLines = new Set(report.tg.map(r => r.line));
+  const rows = [
+    ['Thời gian xếp (Nhap_TG)', nf(report.tg.length) + ' dòng'],
+    ['Sản lượng (Nhap_SP)', nf(report.pd.length) + ' dòng · ' + nf(report.pd.reduce((a, r) => a + r.qty, 0)) + ' tấm'],
+    ['Hàng lỗi BTP (Nhap_BTP)', nf(report.btp.length) + ' dòng · ' + nf(report.btp.reduce((a, r) => a + r.qty, 0)) + ' tấm'],
+    ['Khoảng ngày', m.dateRange + ' (' + m.nDays + ' ngày sản xuất)'],
+    ['Tháng', m.months.join(', ')],
+    ['Tuần', m.weeks.join(', ')],
+    ['Line', m.lines.join(', ')]
+  ];
+  $('pvBody').innerHTML = rows.map(r => '<tr><th>' + r[0] + '</th><td>' + r[1] + '</td></tr>').join('');
+  const warns = [];
+  const zero = report.tg.filter(r => !r.minutes).length;
+  if (zero) warns.push(zero + ' dòng thời gian xếp có Tổng phút = 0 hoặc trống.');
+  const noLine = report.pd.filter(r => !r.line).length;
+  if (noLine) warns.push(noLine + ' dòng sản lượng chưa xác định được Line.');
+  const odd = [...new Set(report.pd.map(r => r.line).filter(l => l && !tgLines.has(l)))];
+  if (odd.length) warns.push('Line chỉ có ở sản lượng, không có ở thời gian xếp: ' + odd.join(', ') + '.');
+  const w = $('warn');
+  if (warns.length) { w.hidden = false; w.className = 'msg warn'; w.innerHTML = '<b>Cần xem lại:</b><br>' + warns.join('<br>'); } else w.hidden = true;
+  $('prev').hidden = $('pub').hidden = false;
+  $('res').hidden = true;
+}
+
+$('go').onclick = async () => {
+  const pw = $('pw').value;
+  if (!report) return;
+  if (!pw) { show('res', 'bad', 'Hãy nhập mật khẩu.'); return; }
+  $('go').disabled = true; show('res', 'warn', 'Đang đẩy dữ liệu lên…');
+  try {
+    await rpc('admin_publish_report', { p_pw: pw, p_data: report });
+    show('res', 'ok', 'Xong. Báo cáo đã cập nhật. Mở lại trang báo cáo để xem (trang đang mở sẽ tự tải lại trong khoảng 1 phút).');
+  } catch (err) { show('res', 'bad', err.message); }
+  $('go').disabled = false;
+};
+
+$('undo').onclick = async () => {
+  const pw = $('pw').value;
+  if (!pw) { show('res', 'bad', 'Hãy nhập mật khẩu.'); return; }
+  try { await rpc('admin_restore_previous', { p_pw: pw }); show('res', 'ok', 'Đã quay lại bản dữ liệu trước đó. Bấm lần nữa để quay lại bản mới.'); }
+  catch (err) { show('res', 'bad', err.message); }
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,1865 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light" data-skin="goc">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Báo cáo Sản xuất Bộ phận Xếp Giấy</title>
+<script>try{var h=document.documentElement,t=localStorage.getItem("xg-theme"),k=localStorage.getItem("xg-skin");if(t==="dark"||t==="light")h.setAttribute("data-theme",t);if(k&&/^[a-z-]+$/.test(k))h.setAttribute("data-skin",k)}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+/* Đỏ nâu (Gốc) */
+html[data-skin="goc"][data-theme="light"] {
+  --bg: #f4f0ec;
+  --card: #ffffff;
+  --card2: #faf7f5;
+  --border: #e8ddd6;
+  --text: #2c1810;
+  --muted: #8a7060;
+  --red: #b71c1c;
+  --red-deep: #8b0000;
+  --red-soft: #c62828;
+  --brown: #6d4c41;
+  --brown-soft: #a1887f;
+  --green: #2e7d32;
+  --green-bg: #e8f5e9;
+  --red-bg: #ffebee;
+  --heat1: #f5e6e0;
+  --heat2: #e8a090;
+  --heat3: #c62828;
+  --heat4: #8b0000;
+  --bar-track: #f0e8e4;
+  --shadow: 0 1px 4px rgba(80,40,20,.08);
+  --header-bg: #ffffff;
+  --select-bg: #fff;
+  --c1: #b71c1c;
+  --c2: #6d4c41;
+  --c3: #c62828;
+  --c4: #8d6e63;
+  --c5: #a1887f;
+  --c6: #5d4037;
+  --kpi-bg: #1a222d;
+  --kpi-border: #2a3544;
+  --kpi-label: #9aa7b8;
+  --kpi-value: #f5f7fa;
+  --kpi-sub: #7a8799;
+  --a1: #d4af37;
+  --a2: #f0a030;
+  --a3: #e8c060;
+  --a4: #e07070;
+  --a5: #5dade2;
+  --a6: #58d68d;
+  --a7: #48c9b0;
+  --v1: #f5e6a6;
+  --v2: #ffd699;
+  --v3: #f5e6a6;
+  --v4: #f5a9a9;
+  --v5: #aed6f1;
+  --v6: #abebc6;
+  --v7: #a3e4d7;
+}
+html[data-skin="goc"][data-theme="dark"] {
+  --bg: #0f0c0b;
+  --card: #1a1412;
+  --card2: #221c19;
+  --border: #3d2e28;
+  --text: #f5ebe6;
+  --muted: #a89080;
+  --red: #e53935;
+  --red-deep: #ff5252;
+  --red-soft: #ef5350;
+  --brown: #bcaaa4;
+  --brown-soft: #8d6e63;
+  --green: #66bb6a;
+  --green-bg: rgba(102,187,106,.15);
+  --red-bg: rgba(229,57,53,.15);
+  --heat1: #3d1f1a;
+  --heat2: #8b3a30;
+  --heat3: #c62828;
+  --heat4: #e53935;
+  --bar-track: #2a201c;
+  --shadow: 0 1px 4px rgba(0,0,0,.3);
+  --header-bg: #1a1412;
+  --select-bg: #221c19;
+  --c1: #b71c1c;
+  --c2: #6d4c41;
+  --c3: #c62828;
+  --c4: #8d6e63;
+  --c5: #a1887f;
+  --c6: #5d4037;
+  --kpi-bg: #1a222d;
+  --kpi-border: #2a3544;
+  --kpi-label: #9aa7b8;
+  --kpi-value: #f5f7fa;
+  --kpi-sub: #7a8799;
+  --a1: #d4af37;
+  --a2: #f0a030;
+  --a3: #e8c060;
+  --a4: #e07070;
+  --a5: #5dade2;
+  --a6: #58d68d;
+  --a7: #48c9b0;
+  --v1: #f5e6a6;
+  --v2: #ffd699;
+  --v3: #f5e6a6;
+  --v4: #f5a9a9;
+  --v5: #aed6f1;
+  --v6: #abebc6;
+  --v7: #a3e4d7;
+}
+/* Đại dương */
+html[data-skin="dai-duong"][data-theme="light"] {
+  --bg: #eef1f4;
+  --card: #ffffff;
+  --card2: #f7f8fb;
+  --border: #d9dfe5;
+  --text: #121b26;
+  --muted: #586574;
+  --red: #1661b6;
+  --red-deep: #10447f;
+  --red-soft: #196dcc;
+  --brown: #377481;
+  --brown-soft: #78a6b0;
+  --green: #2e7d32;
+  --green-bg: #e8f5e9;
+  --red-bg: #e8f2fc;
+  --heat1: #e6edf5;
+  --heat2: #8bb5e4;
+  --heat3: #1866bf;
+  --heat4: #0f3f76;
+  --bar-track: #e5e9ee;
+  --shadow: 0 1px 4px rgba(0,0,0,.08);
+  --header-bg: #ffffff;
+  --select-bg: #ffffff;
+  --c1: #1661b6;
+  --c2: #377481;
+  --c3: #196dcc;
+  --c4: #659aa4;
+  --c5: #8fb1b7;
+  --c6: #2f5860;
+  --kpi-bg: #181f28;
+  --kpi-border: #2f3a46;
+  --kpi-label: #a8b7c7;
+  --kpi-value: #f2f5f8;
+  --kpi-sub: #8798ab;
+  --a1: #5899e4;
+  --v1: #b1d1f6;
+  --a2: #5858e4;
+  --v2: #b1b1f6;
+  --a3: #9058e4;
+  --v3: #cdb1f6;
+  --a4: #58e4e4;
+  --v4: #b1f6f6;
+  --a5: #58cde4;
+  --v5: #b1ebf6;
+  --a6: #6458e4;
+  --v6: #b7b1f6;
+  --a7: #58e492;
+  --v7: #b1f6ce;
+}
+html[data-skin="dai-duong"][data-theme="dark"] {
+  --bg: #0c0f13;
+  --card: #15191e;
+  --card2: #1c2229;
+  --border: #303841;
+  --text: #ebeff4;
+  --muted: #98a2ae;
+  --red: #4994e9;
+  --red-deep: #7bb1ef;
+  --red-soft: #5c9eeb;
+  --brown: #abc8ce;
+  --brown-soft: #669099;
+  --green: #66bb6a;
+  --green-bg: rgba(102,187,106,.15);
+  --red-bg: rgba(73,148,233,0.16);
+  --heat1: #1d2d3e;
+  --heat2: #2b517d;
+  --heat3: #266bbb;
+  --heat4: #408ee7;
+  --bar-track: #212830;
+  --shadow: 0 1px 4px rgba(0,0,0,.35);
+  --header-bg: #15191e;
+  --select-bg: #1c2229;
+  --c1: #4994e9;
+  --c2: #9fc0c6;
+  --c3: #6ea9ed;
+  --c4: #6a97a0;
+  --c5: #547278;
+  --c6: #81b1bb;
+  --kpi-bg: #181f28;
+  --kpi-border: #2f3a46;
+  --kpi-label: #a8b7c7;
+  --kpi-value: #f2f5f8;
+  --kpi-sub: #8798ab;
+  --a1: #5899e4;
+  --v1: #b1d1f6;
+  --a2: #5858e4;
+  --v2: #b1b1f6;
+  --a3: #9058e4;
+  --v3: #cdb1f6;
+  --a4: #58e4e4;
+  --v4: #b1f6f6;
+  --a5: #58cde4;
+  --v5: #b1ebf6;
+  --a6: #6458e4;
+  --v6: #b7b1f6;
+  --a7: #58e492;
+  --v7: #b1f6ce;
+}
+/* Rừng xanh */
+html[data-skin="rung-xanh"][data-theme="light"] {
+  --bg: #eef4f0;
+  --card: #ffffff;
+  --card2: #f7fbf8;
+  --border: #d9e5dd;
+  --text: #122619;
+  --muted: #587462;
+  --red: #268248;
+  --red-deep: #18532e;
+  --red-soft: #2c9653;
+  --brown: #688137;
+  --brown-soft: #9db078;
+  --green: #2e7d32;
+  --green-bg: #e8f5e9;
+  --red-bg: #ebf9f0;
+  --heat1: #e7f3ec;
+  --heat2: #98d7af;
+  --heat3: #288a4c;
+  --heat4: #164b29;
+  --bar-track: #e5eee8;
+  --shadow: 0 1px 4px rgba(0,0,0,.08);
+  --header-bg: #ffffff;
+  --select-bg: #ffffff;
+  --c1: #268248;
+  --c2: #688137;
+  --c3: #2c9653;
+  --c4: #8fa465;
+  --c5: #aab78f;
+  --c6: #4f602f;
+  --kpi-bg: #18281e;
+  --kpi-border: #2f4638;
+  --kpi-label: #a8c7b3;
+  --kpi-value: #f2f8f4;
+  --kpi-sub: #87ab94;
+  --a1: #58e48b;
+  --v1: #b1f6ca;
+  --a2: #58e4cd;
+  --v2: #b1f6eb;
+  --a3: #58c3e4;
+  --v3: #b1e6f6;
+  --a4: #70e458;
+  --v4: #bdf6b1;
+  --a5: #b5e458;
+  --v5: #dff6b1;
+  --a6: #58e47b;
+  --v6: #b1f6c2;
+  --a7: #e4aa58;
+  --v7: #f6d9b1;
+}
+html[data-skin="rung-xanh"][data-theme="dark"] {
+  --bg: #0c130e;
+  --card: #151e18;
+  --card2: #1c2921;
+  --border: #304136;
+  --text: #ebf4ef;
+  --muted: #98aea0;
+  --red: #61d18a;
+  --red-deep: #8cdeaa;
+  --red-soft: #71d696;
+  --brown: #c2ceab;
+  --brown-soft: #889966;
+  --green: #66bb6a;
+  --green-bg: rgba(102,187,106,.15);
+  --red-bg: rgba(97,209,138,0.16);
+  --heat1: #1f3d2a;
+  --heat2: #34754c;
+  --heat3: #3ca562;
+  --heat4: #59cf84;
+  --bar-track: #213027;
+  --shadow: 0 1px 4px rgba(0,0,0,.35);
+  --header-bg: #151e18;
+  --select-bg: #1c2921;
+  --c1: #61d18a;
+  --c2: #b9c69f;
+  --c3: #81daa1;
+  --c4: #8ea06a;
+  --c5: #6c7854;
+  --c6: #a8bb81;
+  --kpi-bg: #18281e;
+  --kpi-border: #2f4638;
+  --kpi-label: #a8c7b3;
+  --kpi-value: #f2f8f4;
+  --kpi-sub: #87ab94;
+  --a1: #58e48b;
+  --v1: #b1f6ca;
+  --a2: #58e4cd;
+  --v2: #b1f6eb;
+  --a3: #58c3e4;
+  --v3: #b1e6f6;
+  --a4: #70e458;
+  --v4: #bdf6b1;
+  --a5: #b5e458;
+  --v5: #dff6b1;
+  --a6: #58e47b;
+  --v6: #b1f6c2;
+  --a7: #e4aa58;
+  --v7: #f6d9b1;
+}
+/* Hoàng hôn */
+html[data-skin="hoang-hon"][data-theme="light"] {
+  --bg: #f4f0ee;
+  --card: #ffffff;
+  --card2: #fbf8f7;
+  --border: #e5ddd9;
+  --text: #261912;
+  --muted: #746258;
+  --red: #c9520d;
+  --red-deep: #903b09;
+  --red-soft: #e15c0e;
+  --brown: #813750;
+  --brown-soft: #b0788b;
+  --green: #2e7d32;
+  --green-bg: #e8f5e9;
+  --red-bg: #fcf0e8;
+  --heat1: #f5ebe6;
+  --heat2: #e5ab8a;
+  --heat3: #d3560d;
+  --heat4: #863709;
+  --bar-track: #eee8e5;
+  --shadow: 0 1px 4px rgba(0,0,0,.08);
+  --header-bg: #ffffff;
+  --select-bg: #ffffff;
+  --c1: #c9520d;
+  --c2: #813750;
+  --c3: #e15c0e;
+  --c4: #a4657a;
+  --c5: #b78f9c;
+  --c6: #602f3f;
+  --kpi-bg: #281e18;
+  --kpi-border: #46382f;
+  --kpi-label: #c7b3a8;
+  --kpi-value: #f8f4f2;
+  --kpi-sub: #ab9487;
+  --a1: #e48b58;
+  --v1: #f6cab1;
+  --a2: #e4cd58;
+  --v2: #f6ebb1;
+  --a3: #c3e458;
+  --v3: #e6f6b1;
+  --a4: #e45870;
+  --v4: #f6b1bd;
+  --a5: #e45887;
+  --v5: #f6b1c8;
+  --a6: #e4aa58;
+  --v6: #f6d9b1;
+  --a7: #d858e4;
+  --v7: #f1b1f6;
+}
+html[data-skin="hoang-hon"][data-theme="dark"] {
+  --bg: #130e0c;
+  --card: #1e1815;
+  --card2: #29211c;
+  --border: #413630;
+  --text: #f4efeb;
+  --muted: #aea098;
+  --red: #ef7c39;
+  --red-deep: #f69d6a;
+  --red-soft: #f0884c;
+  --brown: #ceabb7;
+  --brown-soft: #996677;
+  --green: #66bb6a;
+  --green-bg: rgba(102,187,106,.15);
+  --red-bg: rgba(239,124,57,0.16);
+  --heat1: #3e291d;
+  --heat2: #7d492b;
+  --heat3: #bc5c24;
+  --heat4: #f2742c;
+  --bar-track: #302721;
+  --shadow: 0 1px 4px rgba(0,0,0,.35);
+  --header-bg: #1e1815;
+  --select-bg: #29211c;
+  --c1: #ef7c39;
+  --c2: #c69fac;
+  --c3: #f2955f;
+  --c4: #a06a7c;
+  --c5: #785460;
+  --c6: #bb8194;
+  --kpi-bg: #281e18;
+  --kpi-border: #46382f;
+  --kpi-label: #c7b3a8;
+  --kpi-value: #f8f4f2;
+  --kpi-sub: #ab9487;
+  --a1: #e48b58;
+  --v1: #f6cab1;
+  --a2: #e4cd58;
+  --v2: #f6ebb1;
+  --a3: #c3e458;
+  --v3: #e6f6b1;
+  --a4: #e45870;
+  --v4: #f6b1bd;
+  --a5: #e45887;
+  --v5: #f6b1c8;
+  --a6: #e4aa58;
+  --v6: #f6d9b1;
+  --a7: #d858e4;
+  --v7: #f1b1f6;
+}
+/* Oải hương */
+html[data-skin="oai-huong"][data-theme="light"] {
+  --bg: #f0eef4;
+  --card: #ffffff;
+  --card2: #f8f7fb;
+  --border: #ded9e5;
+  --text: #1a1226;
+  --muted: #645874;
+  --red: #6b35b6;
+  --red-deep: #4f2786;
+  --red-soft: #773dc7;
+  --brown: #813781;
+  --brown-soft: #b078b0;
+  --green: #2e7d32;
+  --green-bg: #e8f5e9;
+  --red-bg: #f1ebf9;
+  --heat1: #ece7f3;
+  --heat2: #b298d7;
+  --heat3: #6f37be;
+  --heat4: #4a257e;
+  --bar-track: #e9e5ee;
+  --shadow: 0 1px 4px rgba(0,0,0,.08);
+  --header-bg: #ffffff;
+  --select-bg: #ffffff;
+  --c1: #6b35b6;
+  --c2: #813781;
+  --c3: #773dc7;
+  --c4: #a465a4;
+  --c5: #b78fb7;
+  --c6: #602f60;
+  --kpi-bg: #1f1828;
+  --kpi-border: #392f46;
+  --kpi-label: #b5a8c7;
+  --kpi-value: #f4f2f8;
+  --kpi-sub: #9687ab;
+  --a1: #9258e4;
+  --v1: #ceb1f6;
+  --a2: #d458e4;
+  --v2: #eeb1f6;
+  --a3: #e458bc;
+  --v3: #f6b1e3;
+  --a4: #5869e4;
+  --v4: #b1b9f6;
+  --a5: #e458e4;
+  --v5: #f6b1f6;
+  --a6: #e45864;
+  --v6: #f6b1b7;
+  --a7: #7b58e4;
+  --v7: #c2b1f6;
+}
+html[data-skin="oai-huong"][data-theme="dark"] {
+  --bg: #0f0c13;
+  --card: #19151e;
+  --card2: #211c29;
+  --border: #373041;
+  --text: #efebf4;
+  --muted: #a198ae;
+  --red: #a079d8;
+  --red-deep: #bfa4e5;
+  --red-soft: #ab88dd;
+  --brown: #ceabce;
+  --brown-soft: #996699;
+  --green: #66bb6a;
+  --green-bg: rgba(102,187,106,.15);
+  --red-bg: rgba(160,121,216,0.16);
+  --heat1: #2b1f3d;
+  --heat2: #4f3475;
+  --heat3: #673ca5;
+  --heat4: #9b71d6;
+  --bar-track: #282130;
+  --shadow: 0 1px 4px rgba(0,0,0,.35);
+  --header-bg: #19151e;
+  --select-bg: #211c29;
+  --c1: #a079d8;
+  --c2: #c69fc6;
+  --c3: #b798e1;
+  --c4: #a06aa0;
+  --c5: #785478;
+  --c6: #bb81bb;
+  --kpi-bg: #1f1828;
+  --kpi-border: #392f46;
+  --kpi-label: #b5a8c7;
+  --kpi-value: #f4f2f8;
+  --kpi-sub: #9687ab;
+  --a1: #9258e4;
+  --v1: #ceb1f6;
+  --a2: #d458e4;
+  --v2: #eeb1f6;
+  --a3: #e458bc;
+  --v3: #f6b1e3;
+  --a4: #5869e4;
+  --v4: #b1b9f6;
+  --a5: #e458e4;
+  --v5: #f6b1f6;
+  --a6: #e45864;
+  --v6: #f6b1b7;
+  --a7: #7b58e4;
+  --v7: #c2b1f6;
+}
+/* Hồng đào */
+html[data-skin="hong-dao"][data-theme="light"] {
+  --bg: #f4eeef;
+  --card: #ffffff;
+  --card2: #fbf7f8;
+  --border: #e5d9dc;
+  --text: #261217;
+  --muted: #74585f;
+  --red: #ca214b;
+  --red-deep: #951837;
+  --red-soft: #dc2855;
+  --brown: #814937;
+  --brown-soft: #b08678;
+  --green: #2e7d32;
+  --green-bg: #e8f5e9;
+  --red-bg: #fbe9ee;
+  --heat1: #f5e6e9;
+  --heat2: #e18ea3;
+  --heat3: #d3224e;
+  --heat4: #8c1734;
+  --bar-track: #eee5e7;
+  --shadow: 0 1px 4px rgba(0,0,0,.08);
+  --header-bg: #ffffff;
+  --select-bg: #ffffff;
+  --c1: #ca214b;
+  --c2: #814937;
+  --c3: #dc2855;
+  --c4: #a47565;
+  --c5: #b7998f;
+  --c6: #603b2f;
+  --kpi-bg: #28181c;
+  --kpi-border: #462f35;
+  --kpi-label: #c7a8b0;
+  --kpi-value: #f8f2f3;
+  --kpi-sub: #ab8790;
+  --a1: #e4587b;
+  --v1: #f6b1c2;
+  --a2: #e47758;
+  --v2: #f6c0b1;
+  --a3: #e4ae58;
+  --v3: #f6dcb1;
+  --a4: #e458c6;
+  --v4: #f6b1e7;
+  --a5: #e47b58;
+  --v5: #f6c2b1;
+  --a6: #cde458;
+  --v6: #ebf6b1;
+  --a7: #e4589e;
+  --v7: #f6b1d4;
+}
+html[data-skin="hong-dao"][data-theme="dark"] {
+  --bg: #130c0e;
+  --card: #1e1517;
+  --card2: #291c1f;
+  --border: #413034;
+  --text: #f4ebee;
+  --muted: #ae989e;
+  --red: #e56182;
+  --red-deep: #ed91a8;
+  --red-soft: #e87390;
+  --brown: #ceb4ab;
+  --brown-soft: #997366;
+  --green: #66bb6a;
+  --green-bg: rgba(102,187,106,.15);
+  --red-bg: rgba(229,97,130,0.16);
+  --heat1: #3e1d26;
+  --heat2: #7d2b40;
+  --heat3: #b52c4e;
+  --heat4: #e4587b;
+  --bar-track: #302125;
+  --shadow: 0 1px 4px rgba(0,0,0,.35);
+  --header-bg: #1e1517;
+  --select-bg: #291c1f;
+  --c1: #e56182;
+  --c2: #c6a99f;
+  --c3: #eb849e;
+  --c4: #a0776a;
+  --c5: #785d54;
+  --c6: #bb9081;
+  --kpi-bg: #28181c;
+  --kpi-border: #462f35;
+  --kpi-label: #c7a8b0;
+  --kpi-value: #f8f2f3;
+  --kpi-sub: #ab8790;
+  --a1: #e4587b;
+  --v1: #f6b1c2;
+  --a2: #e47758;
+  --v2: #f6c0b1;
+  --a3: #e4ae58;
+  --v3: #f6dcb1;
+  --a4: #e458c6;
+  --v4: #f6b1e7;
+  --a5: #e47b58;
+  --v5: #f6c2b1;
+  --a6: #cde458;
+  --v6: #ebf6b1;
+  --a7: #e4589e;
+  --v7: #f6b1d4;
+}
+/* Ngọc lam */
+html[data-skin="ngoc-lam"][data-theme="light"] {
+  --bg: #eef4f4;
+  --card: #ffffff;
+  --card2: #f7fbfa;
+  --border: #d9e5e4;
+  --text: #122624;
+  --muted: #587471;
+  --red: #13867a;
+  --red-deep: #0b5049;
+  --red-soft: #169c8f;
+  --brown: #376881;
+  --brown-soft: #789db0;
+  --green: #2e7d32;
+  --green-bg: #e8f5e9;
+  --red-bg: #e9fcfa;
+  --heat1: #e6f5f3;
+  --heat2: #8de2da;
+  --heat3: #148f83;
+  --heat4: #0a4741;
+  --bar-track: #e5eeed;
+  --shadow: 0 1px 4px rgba(0,0,0,.08);
+  --header-bg: #ffffff;
+  --select-bg: #ffffff;
+  --c1: #13867a;
+  --c2: #376881;
+  --c3: #169c8f;
+  --c4: #658fa4;
+  --c5: #8faab7;
+  --c6: #2f4f60;
+  --kpi-bg: #182826;
+  --kpi-border: #2f4644;
+  --kpi-label: #a8c7c4;
+  --kpi-value: #f2f8f7;
+  --kpi-sub: #87aba8;
+  --a1: #58e4d6;
+  --v1: #b1f6ef;
+  --a2: #58b1e4;
+  --v2: #b1ddf6;
+  --a3: #5879e4;
+  --v3: #b1c1f6;
+  --a4: #58e48b;
+  --v4: #b1f6ca;
+  --a5: #58b5e4;
+  --v5: #b1dff6;
+  --a6: #7b58e4;
+  --v6: #c2b1f6;
+  --a7: #58e4aa;
+  --v7: #b1f6d9;
+}
+html[data-skin="ngoc-lam"][data-theme="dark"] {
+  --bg: #0c1312;
+  --card: #151e1d;
+  --card2: #1c2927;
+  --border: #30413f;
+  --text: #ebf4f3;
+  --muted: #98aeac;
+  --red: #29e0ce;
+  --red-deep: #5ae7d9;
+  --red-soft: #3be3d2;
+  --brown: #abc2ce;
+  --brown-soft: #668899;
+  --green: #66bb6a;
+  --green-bg: rgba(102,187,106,.15);
+  --red-bg: rgba(41,224,206,0.16);
+  --heat1: #1d3e3b;
+  --heat2: #2b7d75;
+  --heat3: #29b8a9;
+  --heat4: #20dfcc;
+  --bar-track: #21302f;
+  --shadow: 0 1px 4px rgba(0,0,0,.35);
+  --header-bg: #151e1d;
+  --select-bg: #1c2927;
+  --c1: #29e0ce;
+  --c2: #9fb9c6;
+  --c3: #4ce6d6;
+  --c4: #6a8ea0;
+  --c5: #546c78;
+  --c6: #81a8bb;
+  --kpi-bg: #182826;
+  --kpi-border: #2f4644;
+  --kpi-label: #a8c7c4;
+  --kpi-value: #f2f8f7;
+  --kpi-sub: #87aba8;
+  --a1: #58e4d6;
+  --v1: #b1f6ef;
+  --a2: #58b1e4;
+  --v2: #b1ddf6;
+  --a3: #5879e4;
+  --v3: #b1c1f6;
+  --a4: #58e48b;
+  --v4: #b1f6ca;
+  --a5: #58b5e4;
+  --v5: #b1dff6;
+  --a6: #7b58e4;
+  --v6: #c2b1f6;
+  --a7: #58e4aa;
+  --v7: #b1f6d9;
+}
+/* Vàng kim */
+html[data-skin="vang-kim"][data-theme="light"] {
+  --bg: #f4f2ee;
+  --card: #ffffff;
+  --card2: #fbf9f7;
+  --border: #e5e2d9;
+  --text: #262012;
+  --muted: #746c58;
+  --red: #a67707;
+  --red-deep: #6c4d04;
+  --red-soft: #bf8808;
+  --brown: #815937;
+  --brown-soft: #b09278;
+  --green: #2e7d32;
+  --green-bg: #e8f5e9;
+  --red-bg: #fcf6e8;
+  --heat1: #f5f0e6;
+  --heat2: #e5ca8a;
+  --heat3: #b07e07;
+  --heat4: #624604;
+  --bar-track: #eeebe5;
+  --shadow: 0 1px 4px rgba(0,0,0,.08);
+  --header-bg: #ffffff;
+  --select-bg: #ffffff;
+  --c1: #a67707;
+  --c2: #815937;
+  --c3: #bf8808;
+  --c4: #a48265;
+  --c5: #b7a28f;
+  --c6: #60462f;
+  --kpi-bg: #282318;
+  --kpi-border: #463f2f;
+  --kpi-label: #c7bea8;
+  --kpi-value: #f8f6f2;
+  --kpi-sub: #aba087;
+  --a1: #e4ba58;
+  --v1: #f6e2b1;
+  --a2: #cde458;
+  --v2: #ebf6b1;
+  --a3: #95e458;
+  --v3: #cff6b1;
+  --a4: #e47058;
+  --v4: #f6bdb1;
+  --a5: #e49958;
+  --v5: #f6d1b1;
+  --a6: #aee458;
+  --v6: #dcf6b1;
+  --a7: #e45880;
+  --v7: #f6b1c5;
+}
+html[data-skin="vang-kim"][data-theme="dark"] {
+  --bg: #13110c;
+  --card: #1e1b15;
+  --card2: #29251c;
+  --border: #413b30;
+  --text: #f4f1eb;
+  --muted: #aea898;
+  --red: #edb226;
+  --red-deep: #f6c655;
+  --red-soft: #efb839;
+  --brown: #cebcab;
+  --brown-soft: #997e66;
+  --green: #66bb6a;
+  --green-bg: rgba(102,187,106,.15);
+  --red-bg: rgba(237,178,38,0.16);
+  --heat1: #3e351d;
+  --heat2: #7d652b;
+  --heat3: #bc8f24;
+  --heat4: #f3b116;
+  --bar-track: #302c21;
+  --shadow: 0 1px 4px rgba(0,0,0,.35);
+  --header-bg: #1e1b15;
+  --select-bg: #29251c;
+  --c1: #edb226;
+  --c2: #c6b19f;
+  --c3: #f0bf4c;
+  --c4: #a0836a;
+  --c5: #786554;
+  --c6: #bb9c81;
+  --kpi-bg: #282318;
+  --kpi-border: #463f2f;
+  --kpi-label: #c7bea8;
+  --kpi-value: #f8f6f2;
+  --kpi-sub: #aba087;
+  --a1: #e4ba58;
+  --v1: #f6e2b1;
+  --a2: #cde458;
+  --v2: #ebf6b1;
+  --a3: #95e458;
+  --v3: #cff6b1;
+  --a4: #e47058;
+  --v4: #f6bdb1;
+  --a5: #e49958;
+  --v5: #f6d1b1;
+  --a6: #aee458;
+  --v6: #dcf6b1;
+  --a7: #e45880;
+  --v7: #f6b1c5;
+}
+/* Than chì */
+html[data-skin="than-chi"][data-theme="light"] {
+  --bg: #f0f1f2;
+  --card: #ffffff;
+  --card2: #f8f9f9;
+  --border: #dddfe1;
+  --text: #121a26;
+  --muted: #5e656e;
+  --red: #46505d;
+  --red-deep: #2c323a;
+  --red-soft: #515c6c;
+  --brown: #4f5a69;
+  --brown-soft: #89929f;
+  --green: #2e7d32;
+  --green-bg: #e8f5e9;
+  --red-bg: #f0f2f4;
+  --heat1: #ecedef;
+  --heat2: #b0b6c0;
+  --heat3: #4b5563;
+  --heat4: #272d34;
+  --bar-track: #e8e9eb;
+  --shadow: 0 1px 4px rgba(0,0,0,.08);
+  --header-bg: #ffffff;
+  --select-bg: #ffffff;
+  --c1: #46505d;
+  --c2: #4f5a69;
+  --c3: #515c6c;
+  --c4: #788391;
+  --c5: #9ca2ab;
+  --c6: #3f4650;
+  --kpi-bg: #1e2021;
+  --kpi-border: #393a3d;
+  --kpi-label: #afb6c0;
+  --kpi-value: #f2f4f8;
+  --kpi-sub: #8f97a3;
+  --a1: #5892e4;
+  --v1: #b1cef6;
+  --a2: #5f58e4;
+  --v2: #b4b1f6;
+  --a3: #9758e4;
+  --v3: #d0b1f6;
+  --a4: #58dde4;
+  --v4: #b1f3f6;
+  --a5: #5892e4;
+  --v5: #b1cef6;
+  --a6: #9e58e4;
+  --v6: #d4b1f6;
+  --a7: #58e4cd;
+  --v7: #b1f6eb;
+}
+html[data-skin="than-chi"][data-theme="dark"] {
+  --bg: #0e0f10;
+  --card: #18191b;
+  --card2: #202225;
+  --border: #35383b;
+  --text: #ebeff4;
+  --muted: #9ca2ab;
+  --red: #9ca6b4;
+  --red-deep: #bcc3cd;
+  --red-soft: #a8b1bd;
+  --brown: #b6bcc3;
+  --brown-soft: #757e8a;
+  --green: #66bb6a;
+  --green-bg: rgba(102,187,106,.15);
+  --red-bg: rgba(156,166,180,0.16);
+  --heat1: #2a2d32;
+  --heat2: #4c535c;
+  --heat3: #636e7e;
+  --heat4: #96a1b0;
+  --bar-track: #26282b;
+  --shadow: 0 1px 4px rgba(0,0,0,.35);
+  --header-bg: #18191b;
+  --select-bg: #202225;
+  --c1: #9ca6b4;
+  --c2: #abb1ba;
+  --c3: #b3bbc6;
+  --c4: #7b838e;
+  --c5: #5e656e;
+  --c6: #949ca8;
+  --kpi-bg: #1e2021;
+  --kpi-border: #393a3d;
+  --kpi-label: #afb6c0;
+  --kpi-value: #f2f4f8;
+  --kpi-sub: #8f97a3;
+  --a1: #5892e4;
+  --v1: #b1cef6;
+  --a2: #5f58e4;
+  --v2: #b4b1f6;
+  --a3: #9758e4;
+  --v3: #d0b1f6;
+  --a4: #58dde4;
+  --v4: #b1f3f6;
+  --a5: #5892e4;
+  --v5: #b1cef6;
+  --a6: #9e58e4;
+  --v6: #d4b1f6;
+  --a7: #58e4cd;
+  --v7: #b1f6eb;
+}
+/* Neon tương lai */
+html[data-skin="neon"][data-theme="light"] {
+  --bg: #f1eef4;
+  --card: #ffffff;
+  --card2: #f8f7fb;
+  --border: #dfd9e5;
+  --text: #1b1226;
+  --muted: #655874;
+  --red: #d709a4;
+  --red-deep: #9d0777;
+  --red-soft: #f00ab6;
+  --brown: #377981;
+  --brown-soft: #78aab0;
+  --green: #2e7d32;
+  --green-bg: #e8f5e9;
+  --red-bg: #fce8f7;
+  --heat1: #f5e6f1;
+  --heat2: #e58ace;
+  --heat3: #e109ab;
+  --heat4: #930670;
+  --bar-track: #e9e5ee;
+  --shadow: 0 1px 4px rgba(0,0,0,.08);
+  --header-bg: #ffffff;
+  --select-bg: #ffffff;
+  --c1: #d709a4;
+  --c2: #377981;
+  --c3: #f00ab6;
+  --c4: #659ea4;
+  --c5: #8fb3b7;
+  --c6: #2f5b60;
+  --kpi-bg: #1f142b;
+  --kpi-border: #39284d;
+  --kpi-label: #b7a8c7;
+  --kpi-value: #f5f2f8;
+  --kpi-sub: #9887ab;
+  --a1: #e458c1;
+  --v1: #f6b1e5;
+  --a2: #e45880;
+  --v2: #f6b1c5;
+  --a3: #e46958;
+  --v3: #f6b9b1;
+  --a4: #bc58e4;
+  --v4: #e3b1f6;
+  --a5: #58d6e4;
+  --v5: #b1eff6;
+  --a6: #5b58e4;
+  --v6: #b2b1f6;
+  --a7: #58e489;
+  --v7: #b1f6c9;
+}
+html[data-skin="neon"][data-theme="dark"] {
+  --bg: #0f0c13;
+  --card: #19151e;
+  --card2: #221c29;
+  --border: #383041;
+  --text: #efebf4;
+  --muted: #a298ae;
+  --red: #f04cc7;
+  --red-deep: #f87cd9;
+  --red-soft: #f25fcd;
+  --brown: #abcace;
+  --brown-soft: #669499;
+  --green: #66bb6a;
+  --green-bg: rgba(102,187,106,.15);
+  --red-bg: rgba(240,76,199,0.16);
+  --heat1: #3e1d36;
+  --heat2: #7d2b69;
+  --heat3: #bc2496;
+  --heat4: #f53dc7;
+  --bar-track: #282130;
+  --shadow: 0 1px 4px rgba(0,0,0,.35);
+  --header-bg: #19151e;
+  --select-bg: #221c29;
+  --c1: #f04cc7;
+  --c2: #9fc2c6;
+  --c3: #f471d3;
+  --c4: #6a9aa0;
+  --c5: #547578;
+  --c6: #81b5bb;
+  --kpi-bg: #1f142b;
+  --kpi-border: #39284d;
+  --kpi-label: #b7a8c7;
+  --kpi-value: #f5f2f8;
+  --kpi-sub: #9887ab;
+  --a1: #e458c1;
+  --v1: #f6b1e5;
+  --a2: #e45880;
+  --v2: #f6b1c5;
+  --a3: #e46958;
+  --v3: #f6b9b1;
+  --a4: #bc58e4;
+  --v4: #e3b1f6;
+  --a5: #58d6e4;
+  --v5: #b1eff6;
+  --a6: #5b58e4;
+  --v6: #b2b1f6;
+  --a7: #58e489;
+  --v7: #b1f6c9;
+}
+/* Cát sa mạc */
+html[data-skin="cat-sa-mac"][data-theme="light"] {
+  --bg: #f4f1ee;
+  --card: #ffffff;
+  --card2: #faf9f7;
+  --border: #e5e0d9;
+  --text: #261d12;
+  --muted: #736759;
+  --red: #9d6525;
+  --red-deep: #6b4519;
+  --red-soft: #b2722a;
+  --brown: #7d4a3b;
+  --brown-soft: #ad877b;
+  --green: #2e7d32;
+  --green-bg: #e8f5e9;
+  --red-bg: #faf3ea;
+  --heat1: #f4eee7;
+  --heat2: #dbba94;
+  --heat3: #a56a27;
+  --heat4: #634017;
+  --bar-track: #eeeae5;
+  --shadow: 0 1px 4px rgba(0,0,0,.08);
+  --header-bg: #ffffff;
+  --select-bg: #ffffff;
+  --c1: #9d6525;
+  --c2: #7d4a3b;
+  --c3: #b2722a;
+  --c4: #a17568;
+  --c5: #b59a91;
+  --c6: #5d3c32;
+  --kpi-bg: #272019;
+  --kpi-border: #453b30;
+  --kpi-label: #c6b9a9;
+  --kpi-value: #f8f5f2;
+  --kpi-sub: #aa9a88;
+  --a1: #e4a358;
+  --v1: #f6d6b1;
+  --a2: #e4e458;
+  --v2: #f6f6b1;
+  --a3: #ace458;
+  --v3: #dbf6b1;
+  --a4: #e45858;
+  --v4: #f6b1b1;
+  --a5: #e47958;
+  --v5: #f6c1b1;
+  --a6: #cfe458;
+  --v6: #ecf6b1;
+  --a7: #e458a0;
+  --v7: #f6b1d5;
+}
+html[data-skin="cat-sa-mac"][data-theme="dark"] {
+  --bg: #12100c;
+  --card: #1e1a15;
+  --card2: #28231d;
+  --border: #403931;
+  --text: #f4f0eb;
+  --muted: #ada499;
+  --red: #d69851;
+  --red-deep: #e1b37f;
+  --red-soft: #daa262;
+  --brown: #ccb4ad;
+  --brown-soft: #967369;
+  --green: #66bb6a;
+  --green-bg: rgba(102,187,106,.15);
+  --red-bg: rgba(214,152,81,0.16);
+  --heat1: #3e2f1d;
+  --heat2: #795730;
+  --heat3: #ab7435;
+  --heat4: #d49349;
+  --bar-track: #2f2922;
+  --shadow: 0 1px 4px rgba(0,0,0,.35);
+  --header-bg: #1e1a15;
+  --select-bg: #28231d;
+  --c1: #d69851;
+  --c2: #c4a9a1;
+  --c3: #deac73;
+  --c4: #9d786c;
+  --c5: #775d55;
+  --c6: #b89084;
+  --kpi-bg: #272019;
+  --kpi-border: #453b30;
+  --kpi-label: #c6b9a9;
+  --kpi-value: #f8f5f2;
+  --kpi-sub: #aa9a88;
+  --a1: #e4a358;
+  --v1: #f6d6b1;
+  --a2: #e4e458;
+  --v2: #f6f6b1;
+  --a3: #ace458;
+  --v3: #dbf6b1;
+  --a4: #e45858;
+  --v4: #f6b1b1;
+  --a5: #e47958;
+  --v5: #f6c1b1;
+  --a6: #cfe458;
+  --v6: #ecf6b1;
+  --a7: #e458a0;
+  --v7: #f6b1d5;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg); color: var(--text);
+  padding: 16px 18px 24px; font-size: 13px; min-height: 100vh;
+  transition: background .25s, color .25s;
+}
+.header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 14px; flex-wrap: wrap; gap: 10px;
+}
+.header-left h1 {
+  font-size: 26px; font-weight: 800; letter-spacing: .3px;
+  border-left: 4px solid var(--red); padding-left: 12px; color: var(--red-deep);
+}
+.header-left .sub { font-size: 11px; color: var(--muted); margin-top: 4px; padding-left: 16px; }
+.header-right { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+/* Theme toggle */
+.theme-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--card); border: 1px solid var(--border); color: var(--text);
+  padding: 7px 12px; border-radius: 8px; font-size: 11px; font-weight: 600;
+  cursor: pointer; transition: .15s; box-shadow: var(--shadow);
+}
+.theme-btn:hover { border-color: var(--red); }
+.theme-btn svg { width: 16px; height: 16px; }
+
+/* Filters dropdown */
+.filters { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.filter-item { display: flex; flex-direction: column; gap: 2px; }
+.filter-item label { font-size: 9px; font-weight: 700; color: var(--muted); letter-spacing: .3px; text-transform: uppercase; }
+.filter-item select {
+  background: var(--select-bg); border: 1px solid var(--border); color: var(--text);
+  padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 600;
+  cursor: pointer; min-width: 100px; outline: none;
+  appearance: auto;
+}
+.filter-item select:focus { border-color: var(--red); }
+.btn-reset {
+  background: var(--red); color: #fff; border: none; padding: 7px 12px;
+  border-radius: 8px; font-size: 11px; font-weight: 600; cursor: pointer; align-self: flex-end;
+}
+.btn-reset:hover { filter: brightness(1.08); }
+
+/* KPI — Dark Executive */
+.kpi-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 12px; }
+.kpi {
+  background: var(--kpi-bg); border-radius: 12px; padding: 16px 12px 14px;
+  border: 1px solid var(--kpi-border); position: relative; overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0,0,0,.25); transition: transform .2s, box-shadow .2s;
+  text-align: center;
+}
+.kpi:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,.35); }
+.kpi .k-label {
+  font-size: 11px; font-weight: 700; letter-spacing: .5px;
+  color: var(--kpi-label); text-transform: uppercase;
+}
+.kpi .k-value {
+  font-family: Bahnschrift, 'Segoe UI', system-ui, sans-serif;
+  font-size: 26.4px; font-weight: 700; line-height: 1.2;
+  margin: 8px 0 4px; color: var(--kpi-value);
+}
+.kpi .k-sub { font-size: 11px; color: var(--kpi-sub); line-height: 1.35; }
+.kpi .k-badge {
+  position: absolute; top: 10px; right: 10px;
+  font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 6px;
+  background: color-mix(in srgb, var(--a1) 18%, transparent); color: var(--a1);
+}
+.kpi .k-result {
+  display: inline-block; margin-top: 6px; font-size: 11px; font-weight: 700;
+  padding: 3px 10px; border-radius: 6px;
+}
+.kpi .k-result.ok { background: rgba(46,204,113,.15); color: #2ecc71; }
+.kpi .k-result.bad { background: rgba(231,76,60,.15); color: #e74c3c; }
+.kpi .gauge-mini { position: absolute; right: 8px; bottom: 6px; width: 52px; height: 32px; opacity: .85; }
+
+/* Accent top bars per card */
+.kpi.k-lots { border-top: 3px solid var(--a1); }
+.kpi.k-lots .k-value { color: var(--v1); }
+.kpi.k-qty { border-top: 3px solid var(--a2); }
+.kpi.k-qty .k-value { color: var(--v2); }
+.kpi.k-min { border-top: 3px solid var(--a3); }
+.kpi.k-min .k-value { color: var(--v3); }
+.kpi.k-btp { border-top: 3px solid var(--a4); }
+.kpi.k-btp .k-value { color: var(--v4); }
+.kpi.k-hpl { border-top: 3px solid var(--a5); }
+.kpi.k-hpl .k-value { color: var(--v5); }
+.kpi.k-cer { border-top: 3px solid var(--a6); }
+.kpi.k-cer .k-value { color: var(--v6); }
+.kpi.k-def { border-top: 3px solid var(--a7); }
+.kpi.k-def .k-value { color: var(--v7); }
+
+.row2 { display: grid; grid-template-columns: 1.55fr 1fr; gap: 10px; margin-bottom: 10px; }
+.row3 { display: grid; grid-template-columns: 1fr 1fr 1.35fr; gap: 10px; margin-bottom: 10px; }
+.card {
+  background: var(--card); border-radius: 12px; padding: 14px;
+  border: 1px solid var(--border); box-shadow: var(--shadow);
+  transition: background .25s;
+}
+.card-title {
+  font-size: 11px; font-weight: 700; letter-spacing: .3px; color: var(--muted);
+  margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;
+  text-transform: uppercase;
+}
+.card-title .unit { font-weight: 500; text-transform: none; }
+
+.heat-wrap { overflow-x: auto; }
+.heat { border-collapse: collapse; font-size: 10px; width: 100%; }
+.heat th { color: var(--muted); font-weight: 600; padding: 4px 3px; text-align: center; font-size: 9px; }
+.heat td { text-align: center; padding: 0; height: 32px; min-width: 36px; }
+.heat .line-label { text-align: left; color: var(--text); font-weight: 600; padding-right: 8px; white-space: nowrap; font-size: 11px; min-width: 52px; }
+.heat-cell { display: block; margin: 2px; border-radius: 5px; padding: 7px 2px; font-weight: 700; font-size: 10px; color: #fff; }
+.heat-legend { display: flex; gap: 8px; align-items: center; font-size: 9px; color: var(--muted); margin-top: 8px; flex-wrap: wrap; }
+.heat-legend span { display: inline-flex; align-items: center; gap: 3px; }
+.heat-legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; }
+
+.size-list { display: flex; flex-direction: column; gap: 8px; }
+.size-row { display: grid; grid-template-columns: 90px 1fr 52px; align-items: center; gap: 8px; }
+.size-row .name { font-size: 11px; color: var(--text); font-weight: 500; }
+.size-row .bar-bg { background: var(--bar-track); border-radius: 4px; height: 16px; overflow: hidden; }
+.size-row .bar-fill { height: 100%; border-radius: 4px; min-width: 2px; }
+.size-row .val { font-size: 11px; font-weight: 700; text-align: right; color: var(--text); }
+
+.op-list { display: flex; flex-direction: column; gap: 8px; }
+.op-row { display: grid; grid-template-columns: 20px 1fr 52px; align-items: center; gap: 8px; }
+.op-row .rank { font-size: 11px; color: var(--muted); font-weight: 600; }
+.op-row .name { font-size: 11px; }
+.op-row .bar-bg { background: var(--bar-track); border-radius: 4px; height: 14px; overflow: hidden; margin-top: 3px; }
+.op-row .bar-fill { height: 100%; border-radius: 4px; background: var(--brown-soft); }
+.op-row .bar-fill.top { background: var(--red); }
+.op-row .val { font-size: 11px; font-weight: 700; text-align: right; }
+
+.chart-box { position: relative; height: 160px; }
+.tbl-wrap { overflow-x: auto; max-height: 280px; overflow-y: auto; }
+table.mtx { width: 100%; border-collapse: collapse; font-size: 11px; }
+table.mtx th {
+  text-align: left; padding: 6px 8px; color: var(--muted); font-weight: 600;
+  font-size: 10px; border-bottom: 1px solid var(--border); position: sticky; top: 0;
+  background: var(--card); white-space: nowrap;
+}
+table.mtx td { padding: 7px 8px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+table.mtx tr:hover td { background: var(--card2); }
+.tag-type { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+.tag-type.hpl { background: color-mix(in srgb, var(--brown) 16%, transparent); color: var(--brown); }
+.tag-type.cerarl { background: var(--red-bg); color: var(--red); }
+.ns-bar { display: inline-block; height: 6px; border-radius: 3px; background: var(--red); vertical-align: middle; margin-right: 4px; }
+.footer {
+  margin-top: 12px; display: flex; justify-content: space-between; align-items: center;
+  font-size: 10px; color: var(--muted); flex-wrap: wrap; gap: 8px;
+}
+@media (max-width: 1200px) {
+  .kpi-row { grid-template-columns: repeat(3, 1fr); }
+  .row2, .row3 { grid-template-columns: 1fr; }
+}
+
+/* Skin picker (Bao_cao.html) */
+.skin-pick { position: relative; }
+.skin-pick .sw { display: inline-flex; gap: 2px; }
+.skin-pick .sw i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; border: 1px solid rgba(128,128,128,.35); }
+.skin-menu {
+  position: absolute; right: 0; top: calc(100% + 6px); z-index: 50; min-width: 230px;
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  box-shadow: 0 10px 28px rgba(0,0,0,.25); padding: 6px; display: none;
+}
+.skin-menu.open { display: block; }
+.skin-menu button {
+  display: flex; align-items: center; gap: 10px; width: 100%; text-align: left;
+  background: none; border: none; color: var(--text); font: inherit; font-size: 12px; font-weight: 600;
+  padding: 8px 10px; border-radius: 7px; cursor: pointer;
+}
+.skin-menu button:hover { background: var(--card2); }
+.skin-menu button.active { background: var(--card2); box-shadow: inset 3px 0 0 var(--red); }
+.skin-menu .num { color: var(--muted); font-weight: 500; width: 18px; }
+.skin-menu .sw { margin-left: auto; }
+
+</style>
+<script>(function(){try{var d=document.documentElement,v=localStorage.getItem('xg-view');var coarse=window.matchMedia&&matchMedia('(pointer:coarse)').matches;var small=Math.min(screen.width,screen.height)<700;if(v!=='mobile'&&v!=='desktop')v=(coarse&&small)?'mobile':'desktop';d.setAttribute('data-view',v);var m=document.querySelector('meta[name=viewport]');if(m)m.setAttribute('content',(coarse&&small&&v==='desktop')?'width=1280':'width=device-width, initial-scale=1.0')}catch(e){}})();</script>
+<script src="config.js"></script>
+<style>
+#xg-msg{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:var(--bg);color:var(--text);font:600 16px/1.5 system-ui,sans-serif;text-align:center;padding:24px}
+#xg-msg small{display:block;color:var(--muted);font-weight:400;margin-top:6px}
+#xg-msg a{color:var(--red)}
+.footer a{color:var(--red);text-decoration:none;font-weight:600}
+</style>
+<style>
+/* Tùy chọn kiểu xem: data-view="desktop" | "mobile" */
+.view-pick .skin-menu{min-width:200px}
+html[data-view="mobile"]{background:var(--bg)}
+html[data-view="mobile"] body{max-width:440px;margin:0 auto;padding:12px 12px 20px;box-shadow:0 0 0 1px var(--border);min-height:100vh}
+html[data-view="mobile"] .header{flex-direction:column;align-items:stretch;gap:10px;margin-bottom:10px}
+html[data-view="mobile"] .header-left h1{font-size:18px;padding-left:10px}
+html[data-view="mobile"] .header-left .sub{padding-left:14px}
+html[data-view="mobile"] .header-right{width:100%;display:flex;flex-wrap:wrap;gap:8px}
+html[data-view="mobile"] .filters{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+html[data-view="mobile"] .filter-item select{width:100%;min-width:0}
+html[data-view="mobile"] .btn-reset{grid-column:1/-1;padding:8px}
+html[data-view="mobile"] .skin-pick:not(.view-pick){flex:1 1 100%}
+html[data-view="mobile"] .skin-pick .theme-btn{width:100%;justify-content:center}
+html[data-view="mobile"] .view-pick{flex:1 1 0;min-width:0}
+html[data-view="mobile"] #themeBtn{flex:1 1 0;justify-content:center}
+html[data-view="mobile"] .skin-pick:not(.view-pick) .skin-menu{left:0;right:auto;min-width:0;width:100%}
+html[data-view="mobile"] .view-pick .skin-menu{left:0;right:auto}
+html[data-view="mobile"] .kpi-row{grid-template-columns:1fr 1fr;gap:8px}
+html[data-view="mobile"] .kpi-row .kpi:last-child{grid-column:1/-1}
+html[data-view="mobile"] .kpi .gauge-mini{display:none}
+html[data-view="mobile"] .kpi .k-badge{display:none}
+html[data-view="mobile"] .kpi-row>*,html[data-view="mobile"] .row2>*,html[data-view="mobile"] .row3>*{min-width:0}
+html[data-view="mobile"] .heat-wrap,html[data-view="mobile"] .tbl-wrap{max-width:100%}
+html[data-view="mobile"] .row2,html[data-view="mobile"] .row3{grid-template-columns:1fr;gap:8px}
+html[data-view="mobile"] .chart-box{height:190px}
+html[data-view="mobile"] .tbl-wrap{max-height:320px}
+html[data-view="mobile"] .footer{flex-direction:column;align-items:flex-start;gap:4px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>BÁO CÁO SẢN XUẤT BỘ PHẬN XẾP GIẤY</h1>
+    <div class="sub">Lô · Tấm · Phút · Năng suất theo Type · BTP</div>
+  </div>
+  <div class="header-right">
+    <div class="filters">
+      <div class="filter-item">
+        <label>Tháng</label>
+        <select id="selMonth"></select>
+      </div>
+      <div class="filter-item">
+        <label>Tuần</label>
+        <select id="selWeek"></select>
+      </div>
+      <div class="filter-item">
+        <label>Ngày</label>
+        <select id="selDay"></select>
+      </div>
+      <div class="filter-item">
+        <label>Line SX</label>
+        <select id="selLine"></select>
+      </div>
+      <button class="btn-reset" onclick="resetFilters()">Reset</button>
+    </div>
+    <div class="skin-pick" id="skinPick">
+      <button class="theme-btn" id="skinBtn" onclick="toggleSkinMenu(event)" aria-haspopup="true" aria-expanded="false" title="Chọn giao diện màu">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 2a10 10 0 100 20 2 2 0 002-2c0-.6-.2-1-.6-1.4-.4-.4-.6-.8-.6-1.4a2 2 0 012-2H18a4 4 0 004-4c0-5-4.5-9-10-9z"/></svg>
+        <span id="skinLabel">Giao diện</span><span class="sw" id="skinSw"></span><span aria-hidden="true">▾</span>
+      </button>
+      <div class="skin-menu" id="skinMenu" role="menu"></div>
+    </div>
+    <div class="skin-pick view-pick" id="viewPick">
+      <button class="theme-btn" id="viewBtn" type="button" aria-haspopup="true" aria-expanded="false" title="Chọn kiểu xem">
+        <svg id="viewIcon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"></svg>
+        <span id="viewLabel">Máy tính</span><span aria-hidden="true">▾</span>
+      </button>
+      <div class="skin-menu" id="viewMenu" role="menu"></div>
+    </div>
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Chuyển giao diện Sáng/Tối">
+      <svg id="themeIcon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+      <span id="themeLabel">Tối</span>
+    </button>
+  </div>
+</div>
+
+<div class="kpi-row">
+  <div class="kpi k-lots">
+    <div class="k-label">Tổng số Lô</div>
+    <div class="k-value" id="kpiLots">—</div>
+    <div class="k-sub" id="kpiLotsSub">—</div>
+  </div>
+  <div class="kpi k-qty">
+    <div class="k-label">Tổng số Tấm</div>
+    <div class="k-value" id="kpiQty">—</div>
+    <div class="k-sub" id="kpiQtySub">—</div>
+  </div>
+  <div class="kpi k-min">
+    <div class="k-label">Tổng số Phút</div>
+    <div class="k-value" id="kpiMin">—</div>
+    <div class="k-sub" id="kpiMinSub">—</div>
+  </div>
+  <div class="kpi k-btp">
+    <div class="k-label">Số tấm BTP</div>
+    <div class="k-value" id="kpiBtp">—</div>
+    <div class="k-sub" id="kpiBtpSub">—</div>
+  </div>
+  <div class="kpi k-hpl">
+    <div class="k-badge">HPL</div>
+    <div class="k-label">Năng suất HPL</div>
+    <div class="k-value" id="kpiHpl">—</div>
+    <div class="k-sub" id="kpiHplSub">—</div>
+    <div class="k-result" id="kpiHplRes">—</div>
+    <canvas class="gauge-mini" id="gHpl" width="52" height="32"></canvas>
+  </div>
+  <div class="kpi k-cer">
+    <div class="k-badge">CERARL</div>
+    <div class="k-label">Năng suất CERARL</div>
+    <div class="k-value" id="kpiCer">—</div>
+    <div class="k-sub" id="kpiCerSub">—</div>
+    <div class="k-result" id="kpiCerRes">—</div>
+    <canvas class="gauge-mini" id="gCer" width="52" height="32"></canvas>
+  </div>
+  <div class="kpi k-def">
+    <div class="k-label">Tỷ lệ BTP</div>
+    <div class="k-value" id="kpiDef">—</div>
+    <div class="k-sub" id="kpiDefSub">—</div>
+    <div class="k-result" id="kpiDefRes">—</div>
+    <canvas class="gauge-mini" id="gDef" width="52" height="32"></canvas>
+  </div>
+</div>
+
+<div class="row2">
+  <div class="card">
+    <div class="card-title">
+      <span>Thời gian hoạt động 4 Line</span>
+      <span class="unit">phút</span>
+    </div>
+    <div class="heat-wrap"><table class="heat" id="heatTable"></table></div>
+    <div class="heat-legend" id="heatLegendBar"></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span>Sản lượng theo phân loại</span><span class="unit">tấm</span></div>
+    <div class="size-list" id="sizeList"></div>
+  </div>
+</div>
+
+<div class="row3">
+  <div class="card">
+    <div class="card-title"><span>Top 6 nhóm · Tổng phút thực hiện</span><span class="unit">nhóm 2 người</span></div>
+    <div class="op-list" id="opList"></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span>Số lượng hàng lỗi theo ngày</span><span class="unit">tấm BTP</span></div>
+    <div class="chart-box"><canvas id="chartDef"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span>10 lô gần nhất</span><span class="unit">mới nhất ở trên</span></div>
+    <div class="tbl-wrap">
+      <table class="mtx">
+        <thead>
+          <tr>
+            <th>#</th><th>Số lô</th><th>Type</th><th>Line</th><th>Ngày</th>
+            <th>Số tấm</th><th>Phút setting</th><th>Phút/tấm</th><th>BTP</th>
+          </tr>
+        </thead>
+        <tbody id="mtxBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div>Báo cáo Bộ phận Xếp Giấy · <a href="upload.html">Cập nhật dữ liệu</a></div>
+  <div id="footerInfo">Số liệu từ Báo cáo Bộ phận Xếp Giấy.xlsx (Nhap_TG · Nhap_SP · Nhap_BTP)</div>
+</div>
+
+<script>
+let RAW = {tg:[],pd:[],btp:[],meta:{months:[],weeks:[],days:[],lines:[],types:[],hplTarget:0.25,cerarlTarget:0.30,defectTarget:0.0005,dateRange:"",nDays:0,updatedAt:""}};
+const state = { month: 'ALL', week: 'ALL', day: 'ALL', line: 'ALL' };
+
+function matchF(val, f) {
+  if (f === 'ALL') return true;
+  return String(val) === String(f);
+}
+function filt(recs) {
+  return recs.filter(r => {
+    if (r.month != null && !matchF(r.month, state.month)) return false;
+    if (r.week != null && !matchF(r.week, state.week)) return false;
+    if (r.day != null && !matchF(r.day, state.day)) return false;
+    if (r.line != null && !matchF(r.line, state.line)) return false;
+    return true;
+  });
+}
+
+function fillSelect(id, values, labelFn) {
+  const sel = document.getElementById(id);
+  sel.innerHTML = '<option value="ALL">Tất cả</option>';
+  values.forEach(v => {
+    const o = document.createElement('option');
+    o.value = String(v);
+    o.textContent = labelFn ? labelFn(v) : String(v);
+    sel.appendChild(o);
+  });
+  sel.addEventListener('change', () => {
+    const key = id.replace('sel','').toLowerCase();
+    const map = { month: 'month', week: 'week', day: 'day', line: 'line' };
+    state[map[key]] = sel.value;
+    refresh();
+  });
+}
+
+function resetFilters() {
+  state.month = state.week = state.day = state.line = 'ALL';
+  ['selMonth','selWeek','selDay','selLine'].forEach(id => {
+    const s = document.getElementById(id);
+    if (s) s.value = 'ALL';
+  });
+  refresh();
+}
+
+function setupFilters() {
+  fillSelect('selMonth', RAW.meta.months || []);
+  fillSelect('selWeek', RAW.meta.weeks || []);
+  fillSelect('selDay', RAW.meta.days || [], v => String(v).padStart(2,'0'));
+  fillSelect('selLine', RAW.meta.lines || []);
+  if (RAW.meta.months && RAW.meta.months.length === 1) {
+    state.month = RAW.meta.months[0];
+    document.getElementById('selMonth').value = RAW.meta.months[0];
+  }
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  document.getElementById('themeLabel').textContent = next === 'dark' ? 'Sáng' : 'Tối';
+  localStorage.setItem('xg-theme', next);
+  // redraw chart colors
+  refresh();
+}
+
+function cssv(n) {
+  return getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+}
+
+function drawMiniGauge(canvasId, value, max, ok) {
+  const c = document.getElementById(canvasId);
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  const w = c.width, h = c.height;
+  ctx.clearRect(0, 0, w, h);
+  const cx = w / 2, cy = h - 2, r = Math.min(w / 2 - 2, h - 4);
+  const pct = Math.min(Math.max(value / max, 0), 1.15);
+  const start = Math.PI, end = Math.PI + Math.PI * Math.min(pct, 1);
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, Math.PI, 2 * Math.PI);
+  ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--border').trim() || '#e8ddd6';
+  ctx.lineWidth = 5; ctx.lineCap = 'round'; ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, start, end);
+  ctx.strokeStyle = ok ? '#2e7d32' : '#b71c1c';
+  ctx.lineWidth = 5; ctx.lineCap = 'round'; ctx.stroke();
+}
+
+let chartDef;
+function initCharts() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  chartDef = new Chart(document.getElementById('chartDef'), {
+    type: 'bar',
+    data: { labels: [], datasets: [{ data: [], backgroundColor: cssv('--red'), borderRadius: 3, barPercentage: 0.7 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.raw + ' tấm' } } },
+      scales: {
+        x: { ticks: { color: cssv('--muted'), font: { size: 9 } }, grid: { display: false } },
+        y: { beginAtZero: true, ticks: { color: cssv('--muted'), font: { size: 9 }, stepSize: 1 }, grid: { color: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)' } }
+      }
+    }
+  });
+}
+
+function heatColor(v) {
+  if (!v || v <= 0) return 'transparent';
+  if (v <= 135) return getComputedStyle(document.documentElement).getPropertyValue('--heat1').trim();
+  if (v <= 250) return getComputedStyle(document.documentElement).getPropertyValue('--heat2').trim();
+  if (v <= 370) return getComputedStyle(document.documentElement).getPropertyValue('--heat3').trim();
+  return getComputedStyle(document.documentElement).getPropertyValue('--heat4').trim();
+}
+
+function fmtInt(n) {
+  n = Math.round(Number(n) || 0);
+  return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
+function fmtDec(n, d) {
+  d = d == null ? 2 : d;
+  return Number(n || 0).toFixed(d);
+}
+
+function refresh() {
+  const tgF = filt(RAW.tg);
+  const pdF = filt(RAW.pd);
+  const btpF = filt(RAW.btp);
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+  const lots = new Set(tgF.map(r => r.lot + '|' + r.type)).size;
+  const lotOnly = new Set(tgF.map(r => r.lot)).size;
+  const qty = pdF.reduce((s, r) => s + r.qty, 0);
+  const minutes = tgF.reduce((s, r) => s + r.minutes, 0);
+  const defects = btpF.reduce((s, r) => s + r.qty, 0);
+  const defRate = qty > 0 ? defects / qty : 0;
+  const nDays = new Set(tgF.map(r => r.day)).size || 1;
+
+  const hplQty = pdF.filter(r => r.type === 'HPL').reduce((s, r) => s + r.qty, 0);
+  const cerQty = pdF.filter(r => r.type === 'CERARL').reduce((s, r) => s + r.qty, 0);
+  const hplMin = tgF.filter(r => r.type === 'HPL').reduce((s, r) => s + r.minutes, 0);
+  const cerMin = tgF.filter(r => r.type === 'CERARL').reduce((s, r) => s + r.minutes, 0);
+  const hplNs = hplQty > 0 ? hplMin / hplQty : 0;
+  const cerNs = cerQty > 0 ? cerMin / cerQty : 0;
+  const hplOk = hplNs <= RAW.meta.hplTarget;
+  const cerOk = cerNs <= RAW.meta.cerarlTarget;
+  const defOk = defRate <= RAW.meta.defectTarget;
+
+  document.getElementById('kpiLots').textContent = fmtInt(lotOnly);
+  document.getElementById('kpiLotsSub').textContent = '= ' + fmtInt(lots) + ' lô × Type';
+  document.getElementById('kpiQty').textContent = fmtInt(qty);
+  document.getElementById('kpiQtySub').textContent = 'TB ' + fmtInt(Math.round(qty / nDays)) + ' tấm/ngày · ' + nDays + ' ngày';
+  document.getElementById('kpiMin').textContent = fmtInt(minutes);
+  document.getElementById('kpiMinSub').textContent = '= ' + fmtInt(minutes / 60) + ' giờ setting';
+
+  document.getElementById('kpiBtp').textContent = fmtInt(defects);
+  document.getElementById('kpiBtpSub').textContent = 'TB ' + (nDays ? fmtDec(defects / nDays, 1) : '0') + ' tấm/ngày · ' + nDays + ' ngày';
+
+  document.getElementById('kpiHpl').textContent = fmtDec(hplNs, 2);
+  document.getElementById('kpiHplSub').textContent = fmtInt(hplMin) + ' phút / ' + fmtInt(hplQty) + ' tấm';
+  const hr = document.getElementById('kpiHplRes');
+  hr.textContent = hplOk ? '✓ ĐẠT (≤0.25)' : '✗ KHÔNG ĐẠT';
+  hr.className = 'k-result ' + (hplOk ? 'ok' : 'bad');
+
+  document.getElementById('kpiCer').textContent = fmtDec(cerNs, 2);
+  document.getElementById('kpiCerSub').textContent = fmtInt(cerMin) + ' phút / ' + fmtInt(cerQty) + ' tấm';
+  const cr = document.getElementById('kpiCerRes');
+  cr.textContent = cerOk ? '✓ ĐẠT (≤0.30)' : '✗ KHÔNG ĐẠT';
+  cr.className = 'k-result ' + (cerOk ? 'ok' : 'bad');
+
+  document.getElementById('kpiDef').textContent = fmtDec(defRate * 100, 3) + '%';
+  document.getElementById('kpiDefSub').textContent = fmtInt(defects) + ' tấm BTP hỏng / ' + fmtInt(qty) + ' tấm';
+  const dr = document.getElementById('kpiDefRes');
+  dr.textContent = defOk ? '✓ ĐẠT (≤0.05%)' : '✗ KHÔNG ĐẠT';
+  dr.className = 'k-result ' + (defOk ? 'ok' : 'bad');
+
+  drawMiniGauge('gHpl', hplNs, RAW.meta.hplTarget, hplOk);
+  drawMiniGauge('gCer', cerNs, RAW.meta.cerarlTarget, cerOk);
+  drawMiniGauge('gDef', defRate, RAW.meta.defectTarget, defOk);
+
+  // Heatmap
+  const days = [...new Set(tgF.map(r => r.day))].sort((a,b) => a-b);
+  const lines = RAW.meta.lines;
+  const matrix = {};
+  lines.forEach(l => {
+    matrix[l] = {};
+    days.forEach(d => {
+      matrix[l][d] = tgF.filter(r => r.line === l && r.day === d).reduce((s,r) => s + r.minutes, 0);
+    });
+  });
+  let ht = '<tr><th></th>' + days.map(d => '<th>' + String(d).padStart(2,'0') + '/10</th>').join('') + '</tr>';
+  lines.forEach(l => {
+    ht += '<tr><td class="line-label">' + l + '</td>';
+    days.forEach(d => {
+      const v = Math.round(matrix[l][d] || 0);
+      if (v <= 0) {
+        ht += '<td><span class="heat-cell" style="background:var(--bar-track);color:transparent">·</span></td>';
+      } else {
+        const tc = v > 250 ? '#fff' : 'var(--text)';
+        ht += '<td><span class="heat-cell" style="background:' + heatColor(v) + ';color:' + tc + '">' + v + '</span></td>';
+      }
+    });
+    ht += '</tr>';
+  });
+  document.getElementById('heatTable').innerHTML = ht;
+  document.getElementById('heatLegendBar').innerHTML =
+    '<span><i style="background:var(--heat1);border:1px solid var(--border)"></i> ≤135</span>' +
+    '<span><i style="background:var(--heat2)"></i> 136–250</span>' +
+    '<span><i style="background:var(--heat3)"></i> 251–370</span>' +
+    '<span><i style="background:var(--heat4)"></i> &gt;370 Cao (phút)</span>';
+
+  // Size
+  const sizeOrder = ['HPL-4x8','Cerarl-3x8','HPL-3x8','Cerarl-4x8','Celent-3x8','Phenol plate'];
+  const sizeMap = {};
+  pdF.forEach(r => { sizeMap[r.sizeCat] = (sizeMap[r.sizeCat] || 0) + r.qty; });
+  const colors = [1,2,3,4,5,6].map(i => cssv('--c' + i));
+  const maxSize = Math.max(...Object.values(sizeMap), 1);
+  document.getElementById('sizeList').innerHTML = sizeOrder.filter(k => sizeMap[k]).map((k, i) => {
+    const v = sizeMap[k];
+    const pct = (v / maxSize * 100).toFixed(1);
+    return '<div class="size-row"><div class="name">' + k + '</div>' +
+      '<div class="bar-bg"><div class="bar-fill" style="width:' + pct + '%;background:' + colors[i % colors.length] + '"></div></div>' +
+      '<div class="val">' + fmtInt(v) + '</div></div>';
+  }).join('') || '<div style="color:var(--muted)">Không có dữ liệu</div>';
+
+  // Top ops
+  const opMap = {};
+  tgF.forEach(r => { opMap[r.op] = (opMap[r.op] || 0) + r.minutes; });
+  const topOps = Object.entries(opMap).sort((a,b) => b[1]-a[1]).slice(0, 6);
+  const maxOp = topOps.length ? topOps[0][1] : 1;
+  document.getElementById('opList').innerHTML = topOps.map((o, i) => {
+    const pct = (o[1] / maxOp * 100).toFixed(1);
+    return '<div class="op-row"><div class="rank">' + (i+1) + '.</div>' +
+      '<div><div class="name">' + o[0] + '</div>' +
+      '<div class="bar-bg"><div class="bar-fill' + (i===0?' top':'') + '" style="width:' + pct + '%"></div></div></div>' +
+      '<div class="val">' + fmtInt(o[1]) + '</div></div>';
+  }).join('') || '<div style="color:var(--muted)">Không có dữ liệu</div>';
+
+  // Defect chart
+  const defMap = {};
+  btpF.forEach(r => { if (r.day != null) defMap[r.day] = (defMap[r.day] || 0) + r.qty; });
+  chartDef.data.labels = days.map(d => String(d).padStart(2,'0') + '/10');
+  chartDef.data.datasets[0].data = days.map(d => defMap[d] || 0);
+  chartDef.data.datasets[0].backgroundColor = cssv('--red');
+  chartDef.options.scales.x.ticks.color = cssv('--muted');
+  chartDef.options.scales.y.ticks.color = cssv('--muted');
+  chartDef.options.scales.y.grid.color = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)';
+  chartDef.update();
+
+  // Recent lots
+  const sorted = [...tgF].sort((a,b) => (b.date || '').localeCompare(a.date || ''));
+  const seen = new Set();
+  const recent = [];
+  const qtyLT = {};
+  pdF.forEach(r => { const k = r.lot + '|' + r.type; qtyLT[k] = (qtyLT[k] || 0) + r.qty; });
+  const btpL = {};
+  btpF.forEach(r => { btpL[r.lot] = (btpL[r.lot] || 0) + r.qty; });
+  for (const r of sorted) {
+    const key = r.lot + '|' + r.type + '|' + r.line;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const q = qtyLT[r.lot + '|' + r.type] || 0;
+    const mins = tgF.filter(x => x.lot===r.lot && x.type===r.type && x.line===r.line && x.day===r.day)
+      .reduce((s,x) => s + x.minutes, 0);
+    const ns = q > 0 ? mins / q : 0;
+    recent.push({
+      lot: r.lot, type: r.type, line: r.line,
+      date: r.date ? r.date.slice(8,10) + '/' + r.date.slice(5,7) : '—',
+      qty: q, minutes: Math.round(mins), ns: ns, btp: btpL[r.lot] || '—'
+    });
+    if (recent.length >= 10) break;
+  }
+  const maxNs = Math.max(...recent.map(r => r.ns), 0.01);
+  document.getElementById('mtxBody').innerHTML = recent.map((r, i) => {
+    const barW = Math.round(r.ns / maxNs * 40);
+    return '<tr>' +
+      '<td>' + (i+1) + '</td>' +
+      '<td><strong>' + r.lot + '</strong></td>' +
+      '<td><span class="tag-type ' + (r.type==='HPL'?'hpl':'cerarl') + '">' + r.type + '</span></td>' +
+      '<td>' + r.line + '</td>' +
+      '<td>' + r.date + '</td>' +
+      '<td>' + (r.qty ? fmtInt(r.qty) : '—') + '</td>' +
+      '<td>' + r.minutes + '</td>' +
+      '<td><span class="ns-bar" style="width:' + barW + 'px"></span>' + (r.ns ? fmtDec(r.ns, 2) : '—') + '</td>' +
+      '<td>' + r.btp + '</td></tr>';
+  }).join('') || '<tr><td colspan="9" style="text-align:center;color:var(--muted)">Không có dữ liệu</td></tr>';
+
+  document.getElementById('footerInfo').textContent =
+    'Số liệu từ Báo cáo Bộ phận Xếp Giấy.xlsx (Nhap_TG · Nhap_SP · Nhap_BTP) · ' + (RAW.meta.dateRange || '') +
+    ' · ' + (RAW.meta.nDays || '') + ' ngày sản xuất · Cập nhật ' + (RAW.meta.updatedAt || '');
+}
+
+// Init theme from storage
+(function() {
+  const saved = localStorage.getItem('xg-theme') || 'light';
+  document.documentElement.setAttribute('data-theme', saved);
+  document.getElementById('themeLabel').textContent = saved === 'dark' ? 'Sáng' : 'Tối';
+})();
+
+const SKINS = [{"id": "goc", "name": "Đỏ nâu (Gốc)", "sw": ["#b71c1c", "#6d4c41", "#e53935"]}, {"id": "dai-duong", "name": "Đại dương", "sw": ["#1661b6", "#377481", "#4994e9"]}, {"id": "rung-xanh", "name": "Rừng xanh", "sw": ["#268248", "#688137", "#61d18a"]}, {"id": "hoang-hon", "name": "Hoàng hôn", "sw": ["#c9520d", "#813750", "#ef7c39"]}, {"id": "oai-huong", "name": "Oải hương", "sw": ["#6b35b6", "#813781", "#a079d8"]}, {"id": "hong-dao", "name": "Hồng đào", "sw": ["#ca214b", "#814937", "#e56182"]}, {"id": "ngoc-lam", "name": "Ngọc lam", "sw": ["#13867a", "#376881", "#29e0ce"]}, {"id": "vang-kim", "name": "Vàng kim", "sw": ["#a67707", "#815937", "#edb226"]}, {"id": "than-chi", "name": "Than chì", "sw": ["#46505d", "#4f5a69", "#9ca6b4"]}, {"id": "neon", "name": "Neon tương lai", "sw": ["#d709a4", "#377981", "#f04cc7"]}, {"id": "cat-sa-mac", "name": "Cát sa mạc", "sw": ["#9d6525", "#7d4a3b", "#d69851"]}];
+function skinById(id) { return SKINS.find(s => s.id === id) || SKINS[0]; }
+function swDots(s) { return s.sw.map(c => '<i style="background:' + c + '"></i>').join(''); }
+function applySkin(id, redraw) {
+  const s = skinById(id), i = SKINS.indexOf(s);
+  document.documentElement.setAttribute('data-skin', s.id);
+  document.getElementById('skinLabel').textContent = String(i + 1).padStart(2, '0') + ' · ' + s.name;
+  document.getElementById('skinSw').innerHTML = swDots(s);
+  document.querySelectorAll('#skinMenu button').forEach(b => b.classList.toggle('active', b.dataset.id === s.id));
+  try { localStorage.setItem('xg-skin', s.id); } catch (e) {}
+  if (redraw) refresh();
+}
+function toggleSkinMenu(ev) {
+  if (ev) ev.stopPropagation();
+  const m = document.getElementById('skinMenu'), open = !m.classList.contains('open');
+  m.classList.toggle('open', open);
+  document.getElementById('skinBtn').setAttribute('aria-expanded', open);
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('#skinPick')) document.getElementById('skinMenu').classList.remove('open');
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') document.getElementById('skinMenu').classList.remove('open'); });
+document.getElementById('skinMenu').innerHTML = SKINS.map((s, i) =>
+  '<button role="menuitem" data-id="' + s.id + '"><span class="num">' + String(i + 1).padStart(2, '0') + '</span>' + s.name +
+  '<span class="sw">' + swDots(s) + '</span></button>').join('');
+document.querySelectorAll('#skinMenu button').forEach(b => b.addEventListener('click', () => {
+  applySkin(b.dataset.id, true);
+  document.getElementById('skinMenu').classList.remove('open');
+}));
+applySkin(document.documentElement.getAttribute('data-skin'), false);
+
+/* ---- Nạp số liệu từ Supabase rồi dựng báo cáo ---- */
+(function () {
+  const CFG = window.APP_CONFIG || {};
+  const box = document.createElement('div');
+  box.id = 'xg-msg';
+  box.innerHTML = '<div>Đang tải số liệu…</div>';
+  document.body.appendChild(box);
+  const say = (t, sub) => { box.innerHTML = '<div>' + t + (sub ? '<small>' + sub + '</small>' : '') + '</div>'; };
+  if (!CFG.SUPABASE_URL || !CFG.SUPABASE_ANON_KEY || CFG.SUPABASE_URL.indexOf('YOUR') >= 0) {
+    say('Chưa cấu hình kết nối', 'Mở file config.js và điền SUPABASE_URL, SUPABASE_ANON_KEY (xem README).');
+    return;
+  }
+  const headers = { apikey: CFG.SUPABASE_ANON_KEY };
+  if (CFG.SUPABASE_ANON_KEY.indexOf('eyJ') === 0) headers.Authorization = 'Bearer ' + CFG.SUPABASE_ANON_KEY;
+  const get = q => fetch(CFG.SUPABASE_URL + '/rest/v1/report?id=eq.1&select=' + q, { headers }).then(r => {
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  });
+  get('data,updated_at').then(rows => {
+    if (!rows.length) {
+      say('Chưa có số liệu', 'Vào <a href="upload.html">Cập nhật dữ liệu</a> để tải file Excel lên lần đầu.');
+      return;
+    }
+    RAW = rows[0].data;
+    const stamp = rows[0].updated_at;
+    box.remove();
+    setupFilters();
+    initCharts();
+    refresh();
+    window.__xgReady = true;
+    // tự tải lại khi có số liệu mới (kiểm tra mỗi phút, chỉ tải lại khi có thay đổi)
+    setInterval(() => {
+      if (document.hidden) return;
+      get('updated_at').then(r => { if (r.length && r[0].updated_at !== stamp) location.reload(); }).catch(() => {});
+    }, 60000);
+  }).catch(e => say('Không tải được số liệu', 'Kiểm tra mạng và cấu hình config.js. (' + e.message + ')'));
+})();
+</script>
+<script>
+/* Tùy chọn kiểu xem: Máy tính / Điện thoại */
+(function () {
+  const root = document.documentElement;
+  const $ = id => document.getElementById(id);
+  const MON = '<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>';
+  const PHN = '<rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/>';
+  const VIEWS = [
+    { id: 'desktop', name: 'Xem trên Máy tính', short: 'Máy tính', icon: MON },
+    { id: 'mobile', name: 'Xem trên Điện thoại', short: 'Điện thoại', icon: PHN }
+  ];
+  const coarse = window.matchMedia && matchMedia('(pointer:coarse)').matches;
+  const menu = $('viewMenu'), btn = $('viewBtn');
+  function paint() {
+    const v = VIEWS.find(x => x.id === root.getAttribute('data-view')) || VIEWS[0];
+    $('viewLabel').textContent = v.short;
+    $('viewIcon').innerHTML = v.icon;
+    menu.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.id === v.id));
+  }
+  function apply(id) {
+    try { localStorage.setItem('xg-view', id); } catch (e) {}
+    if (coarse) { location.reload(); return; }   // điện thoại/máy tính bảng: tải lại để trình duyệt đổi khung nhìn
+    root.setAttribute('data-view', id);
+    paint();
+    if (window.__xgReady) {
+      refresh();
+      setTimeout(() => window.dispatchEvent(new Event('resize')), 60);
+    }
+  }
+  menu.innerHTML = VIEWS.map(v =>
+    '<button type="button" role="menuitem" data-id="' + v.id + '"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">' + v.icon + '</svg>' + v.name + '</button>').join('');
+  menu.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { menu.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); apply(b.dataset.id); }));
+  btn.addEventListener('click', ev => {
+    ev.stopPropagation();
+    const sm = document.getElementById('skinMenu'); if (sm) sm.classList.remove('open');
+    const open = !menu.classList.contains('open');
+    menu.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open);
+  });
+  document.addEventListener('click', e => { if (!e.target.closest('#viewPick')) { menu.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); } }, true);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') menu.classList.remove('open'); });
+  paint();
+})();
+</script>
+</body>
+</html>
