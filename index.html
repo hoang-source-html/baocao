@@ -1191,7 +1191,7 @@ body {
 .kpi.k-def .k-value { color: var(--v7); }
 
 .row2 { display: grid; grid-template-columns: 1.55fr 1fr; gap: 10px; margin-bottom: 10px; }
-.row3 { display: grid; grid-template-columns: 1fr 1fr 1.35fr; gap: 10px; margin-bottom: 10px; }
+.row3 { display: grid; grid-template-columns: 1fr 1fr 1fr 1.6fr; gap: 10px; margin-bottom: 10px; }
 .card {
   background: var(--card); border-radius: 12px; padding: 14px;
   border: 1px solid var(--border); box-shadow: var(--shadow);
@@ -1427,6 +1427,10 @@ html[data-view="mobile"] .footer{flex-direction:column;align-items:flex-start;ga
     <div class="op-list" id="opList"></div>
   </div>
   <div class="card">
+    <div class="card-title"><span>BTP theo Line</span><span class="unit">tấm · % lỗi</span></div>
+    <div class="op-list" id="btpLineList"></div>
+  </div>
+  <div class="card">
     <div class="card-title"><span>Số lượng hàng lỗi theo ngày</span><span class="unit">tấm BTP</span></div>
     <div class="chart-box"><canvas id="chartDef"></canvas></div>
   </div>
@@ -1573,6 +1577,16 @@ function fmtDec(n, d) {
   return Number(n || 0).toFixed(d);
 }
 
+/* Khóa ngày = năm-tháng-ngày (lấy tháng từ trường month dạng "MM/YYYY"), nhãn hiển thị "dd/mm" theo đúng tháng đang lọc */
+function dk(r) {
+  const p = String(r.month).split('/');
+  return ((parseInt(p[1]) || 0) * 100 + (parseInt(p[0]) || 0)) * 100 + Number(r.day);
+}
+function dlabel(k) {
+  const d = k % 100, m = Math.floor(k / 100) % 100;
+  return String(d).padStart(2, '0') + '/' + String(m).padStart(2, '0');
+}
+
 function refresh() {
   const tgF = filt(RAW.tg);
   const pdF = filt(RAW.pd);
@@ -1585,7 +1599,7 @@ function refresh() {
   const minutes = tgF.reduce((s, r) => s + r.minutes, 0);
   const defects = btpF.reduce((s, r) => s + r.qty, 0);
   const defRate = qty > 0 ? defects / qty : 0;
-  const nDays = new Set(tgF.map(r => r.day)).size || 1;
+  const nDays = new Set(tgF.map(dk)).size || 1;
 
   const hplQty = pdF.filter(r => r.type === 'HPL').reduce((s, r) => s + r.qty, 0);
   const cerQty = pdF.filter(r => r.type === 'CERARL').reduce((s, r) => s + r.qty, 0);
@@ -1630,16 +1644,16 @@ function refresh() {
   drawMiniGauge('gDef', defRate, RAW.meta.defectTarget, defOk);
 
   // Heatmap
-  const days = [...new Set(tgF.map(r => r.day))].sort((a,b) => a-b);
+  const days = [...new Set(tgF.map(dk))].sort((a,b) => a-b);
   const lines = RAW.meta.lines;
   const matrix = {};
   lines.forEach(l => {
     matrix[l] = {};
     days.forEach(d => {
-      matrix[l][d] = tgF.filter(r => r.line === l && r.day === d).reduce((s,r) => s + r.minutes, 0);
+      matrix[l][d] = tgF.filter(r => r.line === l && dk(r) === d).reduce((s,r) => s + r.minutes, 0);
     });
   });
-  let ht = '<tr><th></th>' + days.map(d => '<th>' + String(d).padStart(2,'0') + '/10</th>').join('') + '</tr>';
+  let ht = '<tr><th></th>' + days.map(d => '<th>' + dlabel(d) + '</th>').join('') + '</tr>';
   lines.forEach(l => {
     ht += '<tr><td class="line-label">' + l + '</td>';
     days.forEach(d => {
@@ -1687,10 +1701,26 @@ function refresh() {
       '<div class="val">' + fmtInt(o[1]) + '</div></div>';
   }).join('') || '<div style="color:var(--muted)">Không có dữ liệu</div>';
 
+  // BTP theo Line
+  const btpLine = {}, qtyLine = {};
+  btpF.forEach(r => { const l = r.line || 'Khác'; btpLine[l] = (btpLine[l] || 0) + r.qty; });
+  pdF.forEach(r => { if (r.line != null) qtyLine[r.line] = (qtyLine[r.line] || 0) + r.qty; });
+  const lineRows = (RAW.meta.lines || []).map(l => ({ l: l, v: btpLine[l] || 0, q: qtyLine[l] || 0 }));
+  if (btpLine['Khác']) lineRows.push({ l: 'Khác', v: btpLine['Khác'], q: 0 });
+  const maxLine = Math.max(...lineRows.map(x => x.v), 1);
+  const topLineV = Math.max(...lineRows.map(x => x.v), 0);
+  document.getElementById('btpLineList').innerHTML = lineRows.map(x => {
+    const pct = (x.v / maxLine * 100).toFixed(1);
+    const rate = x.q > 0 ? ' · ' + fmtDec(x.v / x.q * 100, 3) + '%' : '';
+    return '<div class="op-row" style="grid-template-columns:62px 1fr 78px"><div class="name">' + x.l + '</div>' +
+      '<div class="bar-bg" style="margin-top:0"><div class="bar-fill' + (x.v > 0 && x.v === topLineV ? ' top' : '') + '" style="width:' + pct + '%"></div></div>' +
+      '<div class="val" style="font-size:10.5px">' + fmtInt(x.v) + rate + '</div></div>';
+  }).join('') || '<div style="color:var(--muted)">Không có dữ liệu</div>';
+
   // Defect chart
   const defMap = {};
-  btpF.forEach(r => { if (r.day != null) defMap[r.day] = (defMap[r.day] || 0) + r.qty; });
-  chartDef.data.labels = days.map(d => String(d).padStart(2,'0') + '/10');
+  btpF.forEach(r => { if (r.day != null) { const k = dk(r); defMap[k] = (defMap[k] || 0) + r.qty; } });
+  chartDef.data.labels = days.map(dlabel);
   chartDef.data.datasets[0].data = days.map(d => defMap[d] || 0);
   chartDef.data.datasets[0].backgroundColor = cssv('--red');
   chartDef.options.scales.x.ticks.color = cssv('--muted');
