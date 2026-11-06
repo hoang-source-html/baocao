@@ -2130,6 +2130,7 @@ function qFilters(){const all=joinRows(),spec=[['month','Tháng',uniq(all.map(r=
 const averagePlugin={id:'qualityAverage',afterDatasetsDraw(chart,args,opts){if(!Number.isFinite(opts.value)||!chart.scales.y)return;const{ctx,chartArea:a,scales:{y}}=chart,pos=y.getPixelForValue(opts.value);if(pos<a.top||pos>a.bottom)return;ctx.save();ctx.strokeStyle=cssv('--brown-soft');ctx.setLineDash([5,4]);ctx.beginPath();ctx.moveTo(a.left,pos);ctx.lineTo(a.right,pos);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle=cssv('--muted');ctx.font='11px Segoe UI';ctx.textAlign='right';ctx.fillText('TB '+pf(opts.value),a.right,pos-6);ctx.restore()}};
 const qValues={id:'qualityValues',afterDatasetsDraw(chart){const ctx=chart.ctx;ctx.save();ctx.font='600 10px Segoe UI';ctx.fillStyle=cssv('--text');if(chart.canvas.id==='q-machines'){const ds=chart.data.datasets[0];chart.getDatasetMeta(0).data.forEach((bar,i)=>{ctx.textAlign='center';ctx.fillText(Number(ds.data[i]).toLocaleString('vi-VN',{maximumFractionDigits:1}),bar.x,Math.max(chart.chartArea.top+10,bar.y-5))})}else if(chart.canvas.id==='q-pareto'){chart.data.datasets.forEach((ds,j)=>chart.getDatasetMeta(j).data.forEach((bar,i)=>{ctx.textAlign='left';if(ds.data[i])ctx.fillText(nf(ds.data[i]),Math.min(bar.x+5,chart.chartArea.right-24),bar.y+3)}))}else if(chart.canvas.id==='q-donut'){const arc=chart.getDatasetMeta(0).data[0];if(arc){ctx.textAlign='center';ctx.font='700 24px Segoe UI';ctx.fillText(nf(chart.data.datasets[0].data.reduce((s,n)=>s+n,0)),arc.x,arc.y+4);ctx.font='11px Segoe UI';ctx.fillText('lượt lỗi',arc.x,arc.y+24)}}ctx.restore()}};
 function qChart(id,type,labels,datasets,extra={}){if(id==='q-lines'){const palette=['#0072B2','#E69F00','#009E73','#A23B9D'];const all=uniq((RAW.meta.lines||[]).concat(joinRows().map(r=>r.line).filter(Boolean))).sort();datasets.forEach((d,i)=>{const key=all.find(l=>d.label.startsWith(lineName(l)+' · '));d.backgroundColor=palette[Math.max(0,all.indexOf(key))%palette.length]})}if(typeof Chart==='undefined')return;if(qCharts[id])qCharts[id].destroy();const grid=cssv('--border'),text=cssv('--muted');const percent=id==='q-machines'||id==='q-lines';const options={responsive:true,maintainAspectRatio:false,animation:false,color:text,plugins:{legend:{position:'top',align:'start',labels:{color:text,boxWidth:11,font:{size:12}}},tooltip:{callbacks:{label:c=>c.dataset.label+': '+(percent?pf(c.parsed.y):nf(type==='doughnut'?c.parsed:extra.indexAxis==='y'?c.parsed.x:c.parsed.y))}},qualityAverage:extra.average===undefined?{}:{value:extra.average}},...extra};delete options.average;if(type!=='doughnut')options.scales={x:{stacked:extra.stacked||false,grid:{display:false},ticks:{color:text,font:{size:12}}},y:{beginAtZero:true,grid:{color:grid},ticks:{color:text,font:{size:12},callback:percent?v=>nf(v)+'%':undefined}}};if(extra.indexAxis==='y'){options.scales.x.grid={color:grid};options.scales.y.grid={display:false};options.scales.y.type="category";options.scales.x.type="linear";options.scales.y.ticks.callback=v=>labels[v]}qCharts[id]=new Chart(el(id),{type,data:{labels,datasets},options,plugins:[averagePlugin,qValues]})}
+let insectExpanded = false;
 function renderInsectHeat(rows) {
   const target = el('insect-heat');
   const fault = QData.labels.findIndex(label => norm(label) === norm('Côn trùng'));
@@ -2159,7 +2160,12 @@ function renderInsectHeat(rows) {
     target.textContent = 'Không có dữ liệu côn trùng theo ca cho bộ lọc hiện tại.' + omission;
     return;
   }
-  const dates = [...days].sort();
+  const allDates = [...days].sort((a, b) => b.localeCompare(a));
+  const dates = insectExpanded ? allDates : allDates.slice(0, 20);
+  const toggle = allDates.length > 20
+    ? '<button type="button" class="btn-reset" id="insect-expand" aria-controls="insect-grid" aria-expanded="' +
+      insectExpanded + '">' + (insectExpanded ? 'Thu gọn' : 'Xem tất cả (' + allDates.length + ' ngày)') + '</button>'
+    : '';
   const header = dates.map(date => '<th scope="col">' + esc(shortDate(date) + '/' + date.slice(0,4)) + '</th>').join('');
   const tables = machines.map(machine => {
     const body = ['1', '2', '3'].map(shift => {
@@ -2175,9 +2181,14 @@ function renderInsectHeat(rows) {
     return '<table class="insect-table"><caption>Máy ép ' + machine +
       '</caption><thead><tr><th scope="col">Ca</th>' + header + '</tr></thead><tbody>' + body + '</tbody></table>';
   }).join('');
-  target.innerHTML = '<p class="q-note"><strong>' + nf(total) + ' lượt</strong> · Cùng thang màu từ 0 đến ' +
+  target.innerHTML = '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap"><p class="q-note"><strong>' + nf(total) + ' lượt theo bộ lọc</strong> · Cùng thang màu từ 0 đến ' +
     nf(peak) + ' lượt. 0 = có kiểm và không ghi nhận lỗi. — = không có tấm kiểm.' + omission +
-    '</p><div class="insect-scroll" tabindex="0" role="region" aria-label="Bản đồ nhiệt lỗi côn trùng theo ngày">' + tables + '</div>';
+    '</p>' + toggle + '</div><div id="insect-grid" class="insect-scroll" tabindex="0" role="region" aria-label="Bản đồ nhiệt lỗi côn trùng theo ngày">' + tables + '</div>';
+  if (toggle) el('insect-expand').onclick = () => {
+    insectExpanded = !insectExpanded;
+    renderInsectHeat(rows);
+    el('insect-expand').focus();
+  };
 }
 function qualityRender(){if(!el('q-kpis')||!QData)return;const all=joinRows(),f=all.filter(r=>(qState.month==='ALL'||monthOf(r.date)===qState.month)&&(qState.week==='ALL'||weekOf(r.date)===qState.week)&&(qState.date==='ALL'||r.date===qState.date)&&(qState.line==='ALL'||r.line===qState.line)&&(qState.machine==='ALL'||r.machine===qState.machine));renderInsectHeat(f);const q=sum(f,'qty'),ng=sum(f,'ng'),lots=uniq(f.map(qKey)).length,ngLots=uniq(f.filter(r=>r.ng>0).map(qKey)).length,c=[1,2,3,4,5,6].map(i=>cssv('--c'+i)),machines=['1','2'].map(m=>f.filter(r=>r.machine===m));
 el('q-kpis').innerHTML=[['k-lots','Tổng số lượng kiểm',nf(q),'tấm · '+nf(lots)+' lô ép'],['k-btp','Tổng số hàng lỗi',nf(ng),'tấm NG · '+nf(ngLots)+' lô có lỗi'],['k-def','Tỷ lệ hàng lỗi',pf(rate(f)),'NG / tổng số lượng kiểm'],['k-qty','Máy ép 1 / Máy ép 2',machines.map(a=>pf(rate(a))).join(' / '),machines.map(a=>nf(sum(a,'ng'))+'/'+nf(sum(a,'qty'))).join(' · ')]].map(a=>'<div class="kpi '+a[0]+'"><div class="k-label">'+a[1]+'</div><div class="k-value"'+(a[0]==='k-qty'?' style="font-size:23px"':'')+'>'+a[2]+'</div><div class="k-sub">'+a[3]+'</div></div>').join('');
