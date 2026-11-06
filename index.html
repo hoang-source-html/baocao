@@ -1521,6 +1521,11 @@ button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{ou
 .insect-table td{border-radius:5px;background:var(--card2);color:var(--muted)}
 .insect-table td[data-checked]{background:color-mix(in srgb,#087987 var(--heat),#e7f4f7);color:#173441;font-weight:650}
 .insect-table td[data-dark]{color:#fff}
+
+.insect-year{display:block;font-size:.82em;font-weight:400}
+.insect-date-slash{display:none}
+@media(max-width:800px){.insect-scroll.insect-compact{overflow-x:auto}.insect-compact .insect-table{table-layout:auto;border-spacing:4px;font-size:13px}.insect-compact .insect-table :is(th,td){min-width:44px;padding:7px 4px}.insect-compact .insect-table th:first-child{width:auto;min-width:64px;position:sticky}.insect-year{display:inline;font:inherit}.insect-date-slash{display:inline}}
+html[data-view=mobile] .insect-scroll.insect-compact{overflow-x:auto}html[data-view=mobile] .insect-compact .insect-table{table-layout:auto;border-spacing:4px;font-size:13px}html[data-view=mobile] .insect-compact .insect-table :is(th,td){min-width:44px;padding:7px 4px}html[data-view=mobile] .insect-compact .insect-table th:first-child{width:auto;min-width:64px;position:sticky}html[data-view=mobile] .insect-year{display:inline;font:inherit}html[data-view=mobile] .insect-date-slash{display:inline}
 </style></head>
 <body><a class="skip-link" href="#report-content">Đến nội dung báo cáo</a><nav class="app-nav" aria-label="Dashboard"><div class="tabs"><button id="tab-production" class="active" onclick="switchPage('production')">Báo cáo Sản xuất</button><button id="tab-quality" onclick="switchPage('quality')">Theo dõi Hàng lỗi</button></div><div class="leader-name">Leader Hoàng Trương Ni Ni</div><div id="global-tools"></div><button class="btn-reset" onclick="openUpload()" id="upload-action">Cập nhật sản xuất</button></nav><div id="sync-status" role="status"></div><div id="report-content" tabindex="-1"></div><main id="production">
 
@@ -2170,7 +2175,7 @@ function renderInsectHeat(rows) {
     ? '<button type="button" class="btn-reset" id="insect-expand" aria-controls="insect-grid" aria-expanded="' +
       insectExpanded + '">' + (insectExpanded ? 'Thu gọn' : 'Xem tất cả (' + allDates.length + ' ngày)') + '</button>'
     : '';
-  const header = dates.map(date => '<th scope="col">' + esc(shortDate(date)) + '<br><small>' + esc(date.slice(0,4)) + '</small>' + '</th>').join('');
+  const header = dates.map(date => '<th scope="col">' + esc(shortDate(date)) + '<span class="insect-year"><span class="insect-date-slash">/</span>' + esc(date.slice(0,4)) + '</span>' + '</th>').join('');
   const tables = machines.map(machine => {
     const body = ['1', '2', '3'].map(shift => {
       const cells = dates.map(date => {
