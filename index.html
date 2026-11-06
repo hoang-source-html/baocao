@@ -1507,6 +1507,12 @@ button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{ou
 @media(min-width:1201px){.app-nav .leader-name{font-size:clamp(20px,1.7vw,30px)}}
 .insect-section h2{font-size:clamp(18px,2vw,23px);line-height:1.35}
 .insect-section .q-note{margin:6px 0 14px}
+.insect-actions{display:flex;justify-content:flex-end;margin-bottom:8px}
+.insect-table small{font-size:.82em;font-weight:400}
+.insect-scroll.insect-compact{overflow:visible;max-height:none}
+.insect-compact .insect-table{table-layout:fixed;border-spacing:1px;font-size:clamp(6px,1.12vw,13px)}
+.insect-compact .insect-table :is(th,td){min-width:0;padding:6px 0}
+.insect-compact .insect-table th:first-child{width:clamp(20px,5vw,64px);position:static}
 .insect-scroll{overflow:auto;max-height:31rem;overscroll-behavior-x:contain}
 .insect-table{border-spacing:4px;width:100%;font-size:13px;font-variant-numeric:tabular-nums}
 .insect-table caption{text-align:left;font-weight:700;padding:9px 4px}
@@ -2139,7 +2145,6 @@ function renderInsectHeat(rows) {
   const days = new Set();
   let skipped = 0;
   let peak = 0;
-  let total = 0;
   for (const row of rows) {
     if (!row.checkDate || !['1', '2', '3'].includes(row.inspectionShift)) {
       skipped++;
@@ -2153,7 +2158,6 @@ function renderInsectHeat(rows) {
     groups.set(key, cell);
     days.add(row.checkDate);
     peak = Math.max(peak, cell.count);
-    total += count;
   }
   const omission = skipped ? ' Bỏ qua ' + nf(skipped) + ' dòng thiếu ngày kiểm hoặc ca.' : '';
   if (!days.size || fault < 0) {
@@ -2166,7 +2170,7 @@ function renderInsectHeat(rows) {
     ? '<button type="button" class="btn-reset" id="insect-expand" aria-controls="insect-grid" aria-expanded="' +
       insectExpanded + '">' + (insectExpanded ? 'Thu gọn' : 'Xem tất cả (' + allDates.length + ' ngày)') + '</button>'
     : '';
-  const header = dates.map(date => '<th scope="col">' + esc(shortDate(date) + '/' + date.slice(0,4)) + '</th>').join('');
+  const header = dates.map(date => '<th scope="col">' + esc(shortDate(date)) + '<br><small>' + esc(date.slice(0,4)) + '</small>' + '</th>').join('');
   const tables = machines.map(machine => {
     const body = ['1', '2', '3'].map(shift => {
       const cells = dates.map(date => {
@@ -2181,9 +2185,11 @@ function renderInsectHeat(rows) {
     return '<table class="insect-table"><caption>Máy ép ' + machine +
       '</caption><thead><tr><th scope="col">Ca</th>' + header + '</tr></thead><tbody>' + body + '</tbody></table>';
   }).join('');
-  target.innerHTML = '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap"><p class="q-note"><strong>' + nf(total) + ' lượt theo bộ lọc</strong> · Cùng thang màu từ 0 đến ' +
-    nf(peak) + ' lượt. 0 = có kiểm và không ghi nhận lỗi. — = không có tấm kiểm.' + omission +
-    '</p>' + toggle + '</div><div id="insect-grid" class="insect-scroll" tabindex="0" role="region" aria-label="Bản đồ nhiệt lỗi côn trùng theo ngày">' + tables + '</div>';
+  target.innerHTML = (toggle ? '<div class="insect-actions">' + toggle + '</div>' : '') +
+    (omission ? '<p class="q-note">' + omission + '</p>' : '') +
+    '<div id="insect-grid" class="insect-scroll' + (insectExpanded ? ' insect-expanded' : ' insect-compact') +
+    '"' + (insectExpanded ? ' tabindex="0"' : '') +
+    ' role="region" aria-label="Bản đồ nhiệt lỗi côn trùng theo ngày">' + tables + '</div>';
   if (toggle) el('insect-expand').onclick = () => {
     insectExpanded = !insectExpanded;
     renderInsectHeat(rows);
