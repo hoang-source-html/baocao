@@ -1526,7 +1526,64 @@ button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{ou
 .insect-date-slash{display:none}
 @media(max-width:800px){.insect-scroll.insect-compact{overflow-x:auto}.insect-compact .insect-table{table-layout:auto;border-spacing:4px;font-size:13px}.insect-compact .insect-table :is(th,td){min-width:44px;padding:7px 4px}.insect-compact .insect-table th:first-child{width:auto;min-width:64px;position:sticky}.insect-year{display:inline;font:inherit}.insect-date-slash{display:inline}}
 html[data-view=mobile] .insect-scroll.insect-compact{overflow-x:auto}html[data-view=mobile] .insect-compact .insect-table{table-layout:auto;border-spacing:4px;font-size:13px}html[data-view=mobile] .insect-compact .insect-table :is(th,td){min-width:44px;padding:7px 4px}html[data-view=mobile] .insect-compact .insect-table th:first-child{width:auto;min-width:64px;position:sticky}html[data-view=mobile] .insect-year{display:inline;font:inherit}html[data-view=mobile] .insect-date-slash{display:inline}
-</style></head>
+</style><style id="q-layout">
+/* ===== Tab Theo dõi hàng lỗi: cùng nhịp bố cục với tab Báo cáo sản xuất =====
+   Thẻ xếp theo lưới 2 cột (1,55 : 1) và 3 cột như trang sản xuất; nhóm bằng nhãn băng. Không đổi số liệu hay biểu đồ. */
+#quality .q-band{display:flex;align-items:center;gap:12px;margin:6px 0 16px;font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted)}
+#quality .q-band:before{content:"";width:4px;height:16px;border-radius:2px;background:var(--red);flex:none}
+#quality .q-band:after{content:"";flex:1;height:1px;background:var(--border)}
+#quality .row2,#quality .row3{display:grid;gap:18px;margin-bottom:20px}
+#quality .row2{grid-template-columns:minmax(0,1.55fr) minmax(0,1fr)}
+#quality .row3{grid-template-columns:repeat(3,minmax(0,1fr))}
+#quality .row2>*,#quality .row3>*{margin-bottom:0;min-width:0}
+/* thẻ phân công bộ phận và côn trùng: cùng kiểu thẻ và tiêu đề với các thẻ khác */
+#quality .bp-section,#quality .insect-section{border-top:1px solid var(--border);padding:22px;margin-bottom:20px}
+#quality .row2>.bp-section,#quality .row3>.bp-section{margin-bottom:0}
+#quality .bp-section h2,#quality .insect-section h2{font-size:14px;line-height:1.6;font-weight:700;letter-spacing:0;color:var(--text);margin:0 0 6px}
+#quality .bp-section h3{font-size:13px;margin:0 0 10px}
+#quality .bp-purpose{margin:0 0 14px}
+#quality .bp-stats{margin:14px 0 20px}
+#quality .bp-stats strong{font-size:26px}
+/* chiều cao biểu đồ vừa hai thẻ cạnh nhau */
+#quality .q-chart{height:340px}
+#quality .q-pareto{height:470px}
+#quality .bp-chart{height:300px}
+#quality .bp-line-chart{height:420px}
+#quality .q-chart.q-tall{height:400px}
+#quality .bp-donut{height:190px;width:190px;margin:0 auto}
+#quality .row3 .bp-chart{height:330px}
+#quality .row3 .bp-combo-grid{grid-template-columns:minmax(0,1fr);gap:14px}
+#quality .q-heat{border-spacing:4px}
+#quality .q-heat td{padding:10px 8px;font-size:18px}
+#quality .q-group{grid-template-columns:150px minmax(0,1fr);gap:14px}
+#quality .q-group table td,#quality .q-group table th{white-space:normal}
+@media(max-width:1200px){#quality .row2,#quality .row3{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:800px){#quality .q-group{grid-template-columns:minmax(0,1fr)}#quality .q-chart{height:300px}#quality .q-pareto{height:380px}#quality .bp-section,#quality .insect-section{padding:16px}}
+html[data-view=mobile] #quality .row2,html[data-view=mobile] #quality .row3{grid-template-columns:minmax(0,1fr)}
+html[data-view=mobile] #quality .q-group{grid-template-columns:minmax(0,1fr)}
+@media(max-width:800px){#quality .q-chart.q-tall{height:300px}#quality .bp-line-chart,#quality .row3 .bp-chart{height:280px}}
+html[data-view=mobile] #quality .q-chart,html[data-view=mobile] #quality .q-chart.q-tall{height:300px}
+html[data-view=mobile] #quality .q-pareto{height:380px}
+html[data-view=mobile] #quality .bp-line-chart,html[data-view=mobile] #quality .row3 .bp-chart{height:280px}
+</style>
+<style id="ux-pass">
+@media(min-width:1201px){
+#quality .row2>.card,#quality .row3>.card{display:flex;flex-direction:column}
+#quality .q-pareto{height:auto;flex:1 1 470px;min-height:470px;position:relative}
+#quality .row3 .bp-chart{height:auto;flex:1 1 330px;min-height:330px;position:relative}
+#quality .q-pareto>canvas,#quality .row3 .bp-chart>canvas{position:absolute;left:0;top:0}
+}
+#quality .insect-year{font-size:12px}
+#quality .filter-item label,#quality .kpi .k-label{font-size:12px}
+#quality :is(.bp-section,.insect-section,.card) :is(small,.unit){font-size:12px}
+</style>
+<style id="banner-tile">
+#quality .header-art-tile{grid-column:2;grid-row:1;justify-self:stretch;align-self:stretch;width:100%;min-height:106px;background-repeat:round no-repeat;background-position:left center;background-size:auto 84px;pointer-events:none}
+@media(min-width:1100px){html:not([data-view=mobile]) #quality>.header.dashboard-header{grid-template-columns:minmax(500px,640px) minmax(0,1fr);column-gap:24px}}
+@media(max-width:800px){#quality .header-art-tile{flex:1 1 100%;min-height:76px;background-size:auto 64px}}
+html[data-view=mobile] #quality .header-art-tile{flex:1 1 100%;min-height:76px;background-size:auto 64px}
+</style>
+</head>
 <body><a class="skip-link" href="#report-content">Đến nội dung báo cáo</a><nav class="app-nav" aria-label="Dashboard"><div class="tabs"><button id="tab-production" class="active" onclick="switchPage('production')">Báo cáo Sản xuất</button><button id="tab-quality" onclick="switchPage('quality')">Theo dõi Hàng lỗi</button></div><div class="leader-name">Leader Hoàng Trương Ni Ni</div><div id="global-tools"></div><button class="btn-reset" onclick="openUpload()" id="upload-action">Cập nhật sản xuất</button></nav><div id="sync-status" role="status"></div><div id="report-content" tabindex="-1"></div><main id="production">
 
 <div class="header">
@@ -2075,7 +2132,7 @@ applySkin(document.documentElement.getAttribute('data-skin'), false);
  <div class="filters q-filters" id="q-filters"></div>
  <div class="q-notice" id="q-source" role="status"></div>
  <div class="kpi-row q-kpis" id="q-kpis"></div>
-
+<div class="q-band">Lỗi bộ phận xếp giấy</div>
 <section id="bp-stacking" class="card bp-section q-section">
  <h2>Lỗi liên quan BP Xếp theo Line sản xuất</h2><p class="bp-purpose">Các loại lỗi được đánh dấu BP Xếp trong bảng phân công, gồm cả lỗi phối hợp.</p>
  <div id="bp-stacking-stats" class="bp-stats"></div><div class="bp-stacking-grid"><div><h3>Số lượt lỗi liên quan theo Line</h3><div class="bp-chart bp-line-chart"><canvas id="bp-stacking-bars"></canvas></div><div class="q-note">Số lượt tuyệt đối, không phải tỷ lệ NG. Số lượng kiểm giữa các Line khác nhau.</div></div><div><h3>Chi tiết loại lỗi × Line sản xuất</h3><div id="bp-stacking-heat" class="bp-scroll"></div></div></div>
@@ -2086,18 +2143,30 @@ applySkin(document.documentElement.getAttribute('data-skin'), false);
   <p class="q-note">Theo ngày kiểm tra và cột Phân ca của file Hậu kiểm. Mỗi ô đếm số lượt ghi nhận ở cột Côn trùng.</p>
   <div id="insect-heat"></div>
 </section>
- <section class="card q-section"><div class="card-title">Tỷ lệ hàng lỗi theo Máy ép <span class="unit">Theo ngày ép · % tổng kiểm trong ngày</span></div><div class="q-chart"><canvas id="q-machines"></canvas></div></section>
- <section class="card q-section"><div class="card-title">Tỷ lệ hàng lỗi theo Line sản xuất <span class="unit">Theo ngày ép · NG / số kiểm của từng Line</span></div><div class="q-chart"><canvas id="q-lines"></canvas></div><div class="q-note" id="q-line-note"></div></section>
- <div id="bp-analysis" class="bp-analysis q-section">
- <section id="bp-workload-section" class="card bp-section"><h2>Khối lượng lỗi liên quan từng bộ phận</h2><p class="bp-purpose">Tách phụ trách riêng và phối hợp; cùng một lượt lỗi có thể liên quan nhiều bộ phận.</p><div class="bp-chart"><canvas id="bp-workload"></canvas></div><p id="bp-workload-note" class="q-note"></p></section>
- <section id="bp-trend-section" class="card bp-section"><h2>Diễn biến theo tuần của từng bộ phận</h2><p class="bp-purpose">Lượt lỗi liên quan / 1.000 tấm kiểm · theo ngày ép, tuần thứ Hai–thứ Bảy.</p><div class="bp-chart"><canvas id="bp-trend"></canvas></div><p class="q-note">Bốn màu cố định, khác kiểu nét và dấu điểm để dễ phân biệt trên mọi giao diện. Không phải tỷ lệ NG riêng của bộ phận.</p></section>
- <section id="bp-faults-section" class="card bp-section"><h2>Bản đồ loại lỗi × Bộ phận phụ trách</h2><p class="bp-purpose">Top 10 loại lỗi theo bộ lọc. — Không đánh dấu phụ trách; số trong một hàng lặp ở các bộ phận phối hợp.</p><div id="bp-fault-heat" class="bp-scroll"></div><p id="bp-unassigned-note" class="q-note"></p></section>
- <section id="bp-combos-section" class="card bp-section"><h2>Cơ cấu phụ trách riêng / phối hợp</h2><p class="bp-purpose">Mỗi lượt lỗi vào một tổ hợp bộ phận, không cộng trùng giữa các tổ hợp.</p><div class="bp-combo-grid"><div class="bp-donut"><canvas id="bp-combos"></canvas></div><div id="bp-combo-table" class="bp-scroll"></div></div><p id="bp-combo-note" class="q-note"></p></section>
+
+
+
+<div class="q-band">Tỷ lệ hàng lỗi</div>
+<div class="row2">
+<section class="card q-section"><div class="card-title">Tỷ lệ hàng lỗi theo Line sản xuất <span class="unit">Theo ngày ép · NG / số kiểm của từng Line</span></div><div class="q-chart"><canvas id="q-lines"></canvas></div><div class="q-note" id="q-line-note"></div></section>
+<section class="card q-section"><div class="card-title">Tỷ trọng các nhóm lỗi <span class="unit">Theo số lượt lỗi</span></div><div class="q-group"><div style="height:200px"><canvas id="q-donut"></canvas></div><div class="tbl-wrap"><table class="mtx"><thead><tr><th>Nhóm lỗi</th><th>Số lượt lỗi</th><th>Tỷ trọng</th></tr></thead><tbody id="q-groups"></tbody></table></div></div></section>
 </div>
- <div class="q-grid"><section class="card"><div class="card-title">Top 10 loại lỗi <span class="unit">Số lượt lỗi theo Máy ép</span></div><div class="q-pareto"><canvas id="q-pareto"></canvas></div><div class="q-note">Một tấm có thể được ghi nhiều loại lỗi. Không cộng lượt lỗi để thay thế NG.</div></section><section class="card"><div class="card-title">Đối chiếu tỷ lệ lỗi Máy ép × Line sản xuất</div><div id="q-heat" class="heat-wrap"></div><div class="q-note">Mỗi ô: NG / số kiểm của tổ hợp Máy × Line. * Mẫu dưới 1.000 tấm. Không tính dòng chưa xác định được Line.</div></section></div>
- <section class="card q-section"><div class="card-title">Tỷ trọng các nhóm lỗi <span class="unit">Theo số lượt lỗi</span></div><div class="q-group"><div style="height:200px"><canvas id="q-donut"></canvas></div><div class="tbl-wrap"><table class="mtx"><thead><tr><th>Nhóm lỗi</th><th>Số lượt lỗi</th><th>Tỷ trọng</th></tr></thead><tbody id="q-groups"></tbody></table></div></div></section>
- <section class="card q-section"><div class="card-title">Các lô hàng cần xem xét <span class="unit">Top 10 theo số NG</span></div><div class="tbl-wrap"><table class="mtx"><thead><tr><th>Số lô</th><th>Ngày ép</th><th>Máy ép</th><th>Line</th><th>Kiểm (tấm)</th><th>NG</th><th>Tỷ lệ</th><th>Lỗi chính (lượt)</th><th>Mã hàng NG nhiều nhất</th><th>BTP</th></tr></thead><tbody id="q-lots"></tbody></table></div><div class="q-note">Nền cảnh báo: tỷ lệ NG ≥ 5%. BTP là số tấm bộ phận tự theo dõi, đối chiếu theo số lô (ngày ghi nhận BTP có thể khác ngày ép).</div></section>
- <div class="footer"><span>NG = cột NG trong file hậu kiểm QC · Một lô được đếm theo Máy ép + Ngày ép + Số lô</span><span id="q-stamp"></span></div>
+<section class="card q-section"><div class="card-title">Các lô hàng cần xem xét <span class="unit">Top 10 theo số NG</span></div><div class="tbl-wrap"><table class="mtx"><thead><tr><th>Số lô</th><th>Ngày ép</th><th>Máy ép</th><th>Line</th><th>Kiểm (tấm)</th><th>NG</th><th>Tỷ lệ</th><th>Lỗi chính (lượt)</th><th>Mã hàng NG nhiều nhất</th><th>BTP</th></tr></thead><tbody id="q-lots"></tbody></table></div><div class="q-note">Nền cảnh báo: tỷ lệ NG ≥ 5%. BTP là số tấm bộ phận tự theo dõi, đối chiếu theo số lô (ngày ghi nhận BTP có thể khác ngày ép).</div></section>
+<div class="row2">
+<section class="card q-section"><div class="card-title">Tỷ lệ hàng lỗi theo Máy ép <span class="unit">Theo ngày ép · % tổng kiểm trong ngày</span></div><div class="q-chart q-tall"><canvas id="q-machines"></canvas></div></section>
+<section class="card"><div class="card-title">Đối chiếu tỷ lệ lỗi Máy ép × Line sản xuất</div><div id="q-heat" class="heat-wrap"></div><div class="q-note">Mỗi ô: NG / số kiểm của tổ hợp Máy × Line. * Mẫu dưới 1.000 tấm. Không tính dòng chưa xác định được Line.</div></section>
+</div>
+<div class="q-band">Loại lỗi và bộ phận phụ trách</div>
+<div class="row2">
+<section class="card"><div class="card-title">Top 10 loại lỗi <span class="unit">Số lượt lỗi theo Máy ép</span></div><div class="q-pareto"><canvas id="q-pareto"></canvas></div><div class="q-note">Một tấm có thể được ghi nhiều loại lỗi. Không cộng lượt lỗi để thay thế NG.</div></section>
+<section id="bp-faults-section" class="card bp-section"><h2>Bản đồ loại lỗi × Bộ phận phụ trách</h2><p class="bp-purpose">Top 10 loại lỗi theo bộ lọc. — Không đánh dấu phụ trách; số trong một hàng lặp ở các bộ phận phối hợp.</p><div id="bp-fault-heat" class="bp-scroll"></div><p id="bp-unassigned-note" class="q-note"></p></section>
+</div>
+<div class="row3">
+<section id="bp-workload-section" class="card bp-section"><h2>Khối lượng lỗi liên quan từng bộ phận</h2><p class="bp-purpose">Tách phụ trách riêng và phối hợp; cùng một lượt lỗi có thể liên quan nhiều bộ phận.</p><div class="bp-chart"><canvas id="bp-workload"></canvas></div><p id="bp-workload-note" class="q-note"></p></section>
+<section id="bp-trend-section" class="card bp-section"><h2>Diễn biến theo tuần của từng bộ phận</h2><p class="bp-purpose">Lượt lỗi liên quan / 1.000 tấm kiểm · theo ngày ép, tuần thứ Hai–thứ Bảy.</p><div class="bp-chart"><canvas id="bp-trend"></canvas></div><p class="q-note">Bốn màu cố định, khác kiểu nét và dấu điểm để dễ phân biệt trên mọi giao diện. Không phải tỷ lệ NG riêng của bộ phận.</p></section>
+<section id="bp-combos-section" class="card bp-section"><h2>Cơ cấu phụ trách riêng / phối hợp</h2><p class="bp-purpose">Mỗi lượt lỗi vào một tổ hợp bộ phận, không cộng trùng giữa các tổ hợp.</p><div class="bp-combo-grid"><div class="bp-donut"><canvas id="bp-combos"></canvas></div><div id="bp-combo-table" class="bp-scroll"></div></div><p id="bp-combo-note" class="q-note"></p></section>
+</div>
+<div class="footer"><span>NG = cột NG trong file hậu kiểm QC · Một lô được đếm theo Máy ép + Ngày ép + Số lô</span><span id="q-stamp"></span></div>
 </main>
 <dialog id="upload-dialog"><div class="upload-head"><h2 id="upload-title">Cập nhật dữ liệu</h2><button class="theme-btn" onclick="document.getElementById('upload-dialog').close()" aria-label="Đóng">Đóng ×</button></div><p id="upload-help"></p><input id="upload-file" type="file" accept=".xlsx,.xlsm"><div id="upload-preview" class="q-notice" role="status">Chọn file Excel để kiểm tra trước khi cập nhật.</div><label for="upload-pw">Mật khẩu cập nhật hiện có</label><input id="upload-pw" type="password" autocomplete="current-password"><div class="upload-head"><button id="upload-publish" class="btn-reset" disabled>Lưu lên Supabase</button></div><div id="upload-result" role="status"></div></dialog>
 
@@ -2106,7 +2175,7 @@ const BP_NAMES=['BP Xếp','BP Ép','BP Ngâm tẩm','BP Hoàn thiện'];
 const BP_COLORS=['#0072B2','#D55E00','#009E73','#A23B9D'];
 let bpSummary=null;
 function bpNumber(v,d=1){return Number(v||0).toLocaleString('vi-VN',{maximumFractionDigits:d})}
-function bpHeat(value,max){const alpha=max>0?value/max:0;return 'background:color-mix(in srgb,var(--c1) '+Math.round(10+alpha*80)+'%,var(--card));color:'+(alpha>.55?'#fff':'var(--text)')}
+function bpHeat(value,max){const alpha=max>0?value/max:0,p=Math.round(10+alpha*80);const rgb=v=>{v=(v||'').trim();let m;if((m=v.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i))){let s=m[1];if(s.length==3)s=s.replace(/./g,'$&$&');return[0,2,4].map(k=>parseInt(s.substr(k,2),16))}if((m=v.match(/[\d.]+/g)))return m.slice(0,3).map(Number);return[255,255,255]};const cs=getComputedStyle(document.documentElement),a=rgb(cs.getPropertyValue('--c1')),b=rgb(cs.getPropertyValue('--card')),mix=a.map((x,k)=>x*p/100+b[k]*(100-p)/100);const L=c=>{const t=c.map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*t[0]+.7152*t[1]+.0722*t[2]};const lm=L(mix),cw=1.05/(lm+.05),cd=(lm+.05)/(L(rgb(cs.getPropertyValue('--text')))+.05);return 'background:color-mix(in srgb,var(--c1) '+p+'%,var(--card));color:'+(cw>=cd?'#fff':'var(--text)')}
 function bpTable(headers,body){return '<table class="bp-table"><thead><tr>'+headers.map(h=>'<th>'+esc(h)+'</th>').join('')+'</tr></thead><tbody>'+body+'</tbody></table>'}
 const bpLabelsPlugin={id:'bpLabels',afterDatasetsDraw(chart){const ctx=chart.ctx;ctx.save();ctx.font='600 12px Segoe UI';ctx.fillStyle=cssv('--text');if(chart.canvas.id==='bp-stacking-bars'||chart.canvas.id==='bp-workload'){const last=chart.data.datasets.length-1;chart.getDatasetMeta(last).data.forEach((bar,i)=>{const total=chart.data.datasets.reduce((s,ds)=>s+(+ds.data[i]||0),0);ctx.textAlign='left';ctx.fillText(nf(total),Math.min(bar.x+6,chart.width-35),bar.y+4)})}else if(chart.canvas.id==='bp-combos'){const arc=chart.getDatasetMeta(0).data[0];if(arc){ctx.textAlign='center';ctx.font='700 24px Segoe UI';ctx.fillText(nf(chart.data.datasets[0].data.reduce((s,v)=>s+v,0)),arc.x,arc.y);ctx.font='11px Segoe UI';ctx.fillText('lượt lỗi',arc.x,arc.y+22)}}ctx.restore()}};
 function bpChart(id,type,labels,datasets,custom={}){if(typeof Chart==='undefined')return;qCharts[id]?.destroy();const text=cssv('--muted'),grid=cssv('--border'),horizontal=custom.indexAxis==='y',donut=type==='doughnut';const plugins={legend:{display:id!=='bp-stacking-bars'&&id!=='bp-combos',position:'bottom',labels:{color:text,boxWidth:11,font:{size:12},usePointStyle:type==='line'}},tooltip:{callbacks:{label:c=>c.dataset.label+': '+(type==='line'?bpNumber(c.parsed.y,2):nf(donut?c.parsed:horizontal?c.parsed.x:c.parsed.y))}}};const options={responsive:true,maintainAspectRatio:false,animation:false,color:text,layout:{padding:{right:horizontal?32:0}},plugins,...custom};if(!donut)options.scales={x:{type:horizontal?'linear':'category',beginAtZero:horizontal,stacked:!!custom.stacked,grid:{color:grid,display:horizontal},ticks:{color:text,font:{size:12}}},y:{type:horizontal?'category':'linear',beginAtZero:!horizontal,stacked:!!custom.stacked,grid:{color:grid,display:!horizontal},ticks:{color:text,font:{size:12}}}};qCharts[id]=new Chart(el(id),{type,data:{labels,datasets},options,plugins:[bpLabelsPlugin]})}
@@ -2259,5 +2328,16 @@ for(const id of ['skinPick','viewPick','themeBtn'])el('global-tools').appendChil
 if(window.PRODUCTION_SNAPSHOT) RAW=window.PRODUCTION_SNAPSHOT.data;setupFilters();initCharts();refresh();window.__xgReady=true;qFilters();qualityRender();switchPage(location.hash==='#hang-loi'?'quality':'production');
 loadShared().then(setupProductionFilters);setInterval(()=>{if(!document.hidden&&!el('upload-dialog').open)loadShared().then(setupProductionFilters)},60000);
 window.addEventListener('hashchange',()=>switchPage(location.hash==='#hang-loi'?'quality':'production'));
-</script></body>
+</script><script>
+(function(){function run(){var q=document.getElementById('quality');if(!q)return;
+q.querySelectorAll('.q-band').forEach(function(e){e.setAttribute('role','heading');e.setAttribute('aria-level','2')});
+q.querySelectorAll('.card-title').forEach(function(e){e.setAttribute('role','heading');e.setAttribute('aria-level','3')});
+q.querySelectorAll('canvas').forEach(function(c){var s=c.closest('section'),t=s&&s.querySelector('.card-title,h2,h3');
+c.setAttribute('role','img');c.setAttribute('aria-label',(t?t.textContent.replace(/\s+/g,' ').trim():'Biểu đồ')+' (số liệu đầy đủ ở bảng cùng thẻ hoặc phần ghi chú)')})}
+if(document.readyState!=='loading')run();else document.addEventListener('DOMContentLoaded',run)})();
+</script>
+<script>
+(function(){document.querySelectorAll('#quality>.header .header-art').forEach(function(img){var d=document.createElement('div');d.className='header-art-tile';d.setAttribute('aria-hidden','true');d.style.backgroundImage='url("'+img.src+'")';img.replaceWith(d)})})();
+</script>
+</body>
 </html>
