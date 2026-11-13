@@ -1571,7 +1571,17 @@ html[data-view=mobile] #quality .bp-line-chart,html[data-view=mobile] #quality .
 .flower-banner{width:100%;height:90px;background-repeat:repeat-x;background-position:center;background-size:auto 90px;pointer-events:none}
 @media(max-width:800px){.dashboard-header .flower-banner{grid-column:1/-1;height:76px;background-size:auto 76px}}
 html[data-view=mobile] .dashboard-header .flower-banner{width:100%;height:76px;background-size:auto 76px}
-</style><style>#production .kpi:has(.column-mini){padding-right:60px}</style><style>#production .kpi.kpi-alert{background:var(--red-bg);border-color:#cf4545}</style></head>
+</style><style>#production .kpi:has(.column-mini){padding-right:60px}</style><style>#production .kpi.kpi-alert{background:var(--red-bg);border-color:#cf4545}</style><style>
+#quality .q-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;margin-bottom:14px}
+#quality .q-layout>.card{margin-bottom:0;min-width:0}
+#quality .q-layout-press{grid-template-columns:minmax(0,3fr) minmax(0,7fr)}
+#quality .q-layout-types{grid-template-columns:minmax(0,4fr) minmax(0,3fr) minmax(0,3fr)}
+#quality .q-layout-depts{grid-template-columns:repeat(3,minmax(0,1fr))}
+#quality .q-layout-types .q-group,#quality .q-layout-depts .bp-combo-grid{grid-template-columns:minmax(0,1fr)}
+#quality #q-heat{overflow-x:auto}
+@media(max-width:1050px){#quality .q-layout{grid-template-columns:minmax(0,1fr)}}
+html[data-view=mobile] #quality .q-layout{grid-template-columns:minmax(0,1fr)}
+</style></head>
 <body><a class="skip-link" href="#report-content">Đến nội dung báo cáo</a><nav class="app-nav" aria-label="Dashboard"><div class="tabs"><button id="tab-production" class="active" onclick="switchPage('production')">Báo cáo Sản xuất</button><button id="tab-quality" onclick="switchPage('quality')">Theo dõi Hàng lỗi</button></div><div class="leader-name">Leader Hoàng Trương Ni Ni</div><div id="global-tools"></div><button class="btn-reset" onclick="openUpload()" id="upload-action">Cập nhật sản xuất</button></nav><div id="sync-status" role="status"></div><div id="report-content" tabindex="-1"></div><main id="production">
 
 <div class="header">
@@ -2118,41 +2128,43 @@ applySkin(document.documentElement.getAttribute('data-skin'), false);
  <div class="q-notice" id="q-source" role="status"></div>
  <div class="kpi-row q-kpis" id="q-kpis"></div>
 <div class="q-band">Lỗi liên quan Bộ phận Xếp giấy</div>
+<div class="q-layout ">
 <section id="bp-stacking" class="card bp-section q-section">
  <h2>Lỗi liên quan BP Xếp theo Line sản xuất</h2><p class="bp-purpose">Các loại lỗi được đánh dấu BP Xếp trong bảng phân công, gồm cả lỗi phối hợp.</p>
  <div id="bp-stacking-stats" class="bp-stats"></div><div class="bp-stacking-grid"><div><h3>Số lượt lỗi liên quan theo Line</h3><div class="bp-chart bp-line-chart"><canvas id="bp-stacking-bars"></canvas></div><div class="q-note">Số lượt tuyệt đối, không phải tỷ lệ NG. Số lượng kiểm giữa các Line khác nhau.</div></div><div><h3>Chi tiết loại lỗi × Line sản xuất</h3><div id="bp-stacking-heat" class="bp-scroll"></div></div></div>
  <p class="q-note">Đối chiếu Số lô + Mã hàng, ưu tiên ngày ép trùng. Giữ riêng lượt chưa xác định duy nhất Line. Phụ trách là phạm vi xử lý, chưa phải kết luận nguyên nhân thuộc BP Xếp.</p>
 </section>
+</div>
+<div class="q-layout ">
+<section class="card q-section"><div class="card-title">Tỷ lệ hàng lỗi theo Line sản xuất <span class="unit">Theo ngày ép · NG / số kiểm của từng Line</span></div><div class="q-chart"><canvas id="q-lines"></canvas></div><div class="q-note" id="q-line-note"></div></section>
+</div>
+<div class="q-band">Lỗi liên quan Bộ phận Ép</div>
+<div class="q-layout q-layout-press">
+<section class="card"><div class="card-title">Đối chiếu tỷ lệ lỗi Máy ép × Line sản xuất</div><div id="q-heat" class="heat-wrap"></div><div class="q-note">Mỗi ô: NG / số kiểm của tổ hợp Máy × Line. * Mẫu dưới 1.000 tấm. Không tính dòng chưa xác định được Line.</div></section>
 <section class="card q-section insect-section" aria-labelledby="insect-title">
   <h2 id="insect-title">Số lượt lỗi côn trùng theo ngày, ca và máy ép</h2>
   <p class="q-note">Theo ngày ép và cột Phân ca của file Hậu kiểm. Bộ lọc thời gian áp dụng theo ngày ép cho ma trận này. Mỗi ô đếm số lượt ghi nhận ở cột Côn trùng.</p>
   <div id="insect-heat"></div>
 </section>
-
-
-<div class="q-band">Tỷ lệ hàng lỗi</div>
-<div class="row2">
-<section class="card q-section"><div class="card-title">Tỷ lệ hàng lỗi theo Máy ép <span class="unit">Theo ngày ép · % tổng kiểm trong ngày</span></div><div class="q-chart q-tall"><canvas id="q-machines"></canvas></div></section>
-<section class="card"><div class="card-title">Đối chiếu tỷ lệ lỗi Máy ép × Line sản xuất</div><div id="q-heat" class="heat-wrap"></div><div class="q-note">Mỗi ô: NG / số kiểm của tổ hợp Máy × Line. * Mẫu dưới 1.000 tấm. Không tính dòng chưa xác định được Line.</div></section>
 </div>
-<div class="row2">
-<section class="card q-section"><div class="card-title">Tỷ lệ hàng lỗi theo Line sản xuất <span class="unit">Theo ngày ép · NG / số kiểm của từng Line</span></div><div class="q-chart"><canvas id="q-lines"></canvas></div><div class="q-note" id="q-line-note"></div></section>
-<section class="card q-section"><div class="card-title">Tỷ trọng các nhóm lỗi <span class="unit">Theo số lượt lỗi</span></div><div class="q-group"><div style="height:200px"><canvas id="q-donut"></canvas></div><div class="tbl-wrap"><table class="mtx"><thead><tr><th>Nhóm lỗi</th><th>Số lượt lỗi</th><th>Tỷ trọng</th></tr></thead><tbody id="q-groups"></tbody></table></div></div></section>
+<div class="q-layout ">
+<section class="card q-section"><div class="card-title">Các lô hàng cần xem xét <span class="unit">Top 10 theo số NG</span></div><div class="tbl-wrap"><table class="mtx"><thead><tr><th>Số lô</th><th>Ngày ép</th><th>Máy ép</th><th>Line</th><th>Kiểm (tấm)</th><th>NG</th><th>Tỷ lệ</th><th>Lỗi chính (lượt)</th><th>Mã hàng NG nhiều nhất</th><th>BTP</th></tr></thead><tbody id="q-lots"></tbody></table></div><div class="q-note">Nền cảnh báo: tỷ lệ NG ≥ 5%. BTP là số tấm bộ phận tự theo dõi, đối chiếu theo số lô (ngày ghi nhận BTP có thể khác ngày ép).</div></section>
+</div>
+<div class="q-layout ">
+<section class="card q-section"><div class="card-title">Tỷ lệ hàng lỗi theo Máy ép <span class="unit">Theo ngày ép · % tổng kiểm trong ngày</span></div><div class="q-chart q-tall"><canvas id="q-machines"></canvas></div></section>
 </div>
 <div class="q-band">Loại lỗi và bộ phận phụ trách</div>
-<div class="row2">
+<div class="q-layout q-layout-types">
 <section class="card"><div class="card-title">Top 10 loại lỗi <span class="unit">Số lượt lỗi theo Máy ép</span></div><div class="q-pareto"><canvas id="q-pareto"></canvas></div><div class="q-note">Một tấm có thể được ghi nhiều loại lỗi. Không cộng lượt lỗi để thay thế NG.</div></section>
+<section class="card q-section"><div class="card-title">Tỷ trọng các nhóm lỗi <span class="unit">Theo số lượt lỗi</span></div><div class="q-group"><div style="height:200px"><canvas id="q-donut"></canvas></div><div class="tbl-wrap"><table class="mtx"><thead><tr><th>Nhóm lỗi</th><th>Số lượt lỗi</th><th>Tỷ trọng</th></tr></thead><tbody id="q-groups"></tbody></table></div></div></section>
 <section id="bp-faults-section" class="card bp-section"><h2>Bản đồ loại lỗi × Bộ phận phụ trách</h2><p class="bp-purpose">Top 10 loại lỗi theo bộ lọc. — Không đánh dấu phụ trách; số trong một hàng lặp ở các bộ phận phối hợp.</p><div id="bp-fault-heat" class="bp-scroll"></div><p id="bp-unassigned-note" class="q-note"></p></section>
 </div>
-
-<div class="row3">
-<section id="bp-workload-section" class="card bp-section"><h2>Khối lượng lỗi liên quan từng bộ phận</h2><p class="bp-purpose">Tách phụ trách riêng và phối hợp; cùng một lượt lỗi có thể liên quan nhiều bộ phận.</p><div class="bp-chart"><canvas id="bp-workload"></canvas></div><p id="bp-workload-note" class="q-note"></p></section>
-<section id="bp-trend-section" class="card bp-section"><h2>Diễn biến theo tuần của từng bộ phận</h2><p class="bp-purpose">Lượt lỗi liên quan / 1.000 tấm kiểm · theo ngày ép, tuần Chủ nhật–thứ Bảy.</p><div class="bp-chart"><canvas id="bp-trend"></canvas></div><p class="q-note">Bốn màu cố định, khác kiểu nét và dấu điểm để dễ phân biệt trên mọi giao diện. Không phải tỷ lệ NG riêng của bộ phận.</p></section>
+<div class="q-layout q-layout-depts">
 <section id="bp-combos-section" class="card bp-section"><h2>Cơ cấu phụ trách riêng / phối hợp</h2><p class="bp-purpose">Mỗi lượt lỗi vào một tổ hợp bộ phận, không cộng trùng giữa các tổ hợp.</p><div class="bp-combo-grid"><div class="bp-donut"><canvas id="bp-combos"></canvas></div><div id="bp-combo-table" class="bp-scroll"></div></div><p id="bp-combo-note" class="q-note"></p></section>
+<section id="bp-trend-section" class="card bp-section"><h2>Diễn biến theo tuần của từng bộ phận</h2><p class="bp-purpose">Lượt lỗi liên quan / 1.000 tấm kiểm · theo ngày ép, tuần Chủ nhật–thứ Bảy.</p><div class="bp-chart"><canvas id="bp-trend"></canvas></div><p class="q-note">Bốn màu cố định, khác kiểu nét và dấu điểm để dễ phân biệt trên mọi giao diện. Không phải tỷ lệ NG riêng của bộ phận.</p></section>
+<section id="bp-workload-section" class="card bp-section"><h2>Khối lượng lỗi liên quan từng bộ phận</h2><p class="bp-purpose">Tách phụ trách riêng và phối hợp; cùng một lượt lỗi có thể liên quan nhiều bộ phận.</p><div class="bp-chart"><canvas id="bp-workload"></canvas></div><p id="bp-workload-note" class="q-note"></p></section>
 </div>
-<div class="q-band">Chi tiết theo ngày và theo lô</div>
 
-<section class="card q-section"><div class="card-title">Các lô hàng cần xem xét <span class="unit">Top 10 theo số NG</span></div><div class="tbl-wrap"><table class="mtx"><thead><tr><th>Số lô</th><th>Ngày ép</th><th>Máy ép</th><th>Line</th><th>Kiểm (tấm)</th><th>NG</th><th>Tỷ lệ</th><th>Lỗi chính (lượt)</th><th>Mã hàng NG nhiều nhất</th><th>BTP</th></tr></thead><tbody id="q-lots"></tbody></table></div><div class="q-note">Nền cảnh báo: tỷ lệ NG ≥ 5%. BTP là số tấm bộ phận tự theo dõi, đối chiếu theo số lô (ngày ghi nhận BTP có thể khác ngày ép).</div></section>
 <div class="footer"><span>NG = cột NG trong file hậu kiểm QC · Một lô được đếm theo Máy ép + Ngày ép + Số lô</span><span id="q-stamp"></span></div>
 </main>
 <dialog id="upload-dialog"><div class="upload-head"><h2 id="upload-title">Cập nhật dữ liệu</h2><button class="theme-btn" onclick="document.getElementById('upload-dialog').close()" aria-label="Đóng">Đóng ×</button></div><p id="upload-help"></p><input id="upload-file" type="file" accept=".xlsx,.xlsm"><div id="upload-preview" class="q-notice" role="status">Chọn file Excel để kiểm tra trước khi cập nhật.</div><label for="upload-pw">Mật khẩu cập nhật hiện có</label><input id="upload-pw" type="password" autocomplete="current-password"><div class="upload-head"><button id="upload-publish" class="btn-reset" disabled>Lưu lên Supabase</button></div><div id="upload-result" role="status"></div></dialog>
