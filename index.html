@@ -2236,14 +2236,14 @@ applySkin(document.documentElement.getAttribute('data-skin'), false);
 </section>
 </div>
 <div class="q-layout ">
-<section class="card q-section"><div class="card-title">Tỷ lệ hàng lỗi theo Line sản xuất <span class="unit">Theo ngày kiểm tra · NG / số kiểm của từng Line</span></div><div class="q-chart"><canvas id="q-lines"></canvas></div><div class="q-note" id="q-line-note"></div></section>
+<section class="card q-section"><div class="card-title">Tỷ lệ hàng lỗi theo Line sản xuất <span class="unit">Theo ngày ép · NG / số kiểm của từng Line</span></div><div class="q-chart"><canvas id="q-lines"></canvas></div><div class="q-note" id="q-line-note"></div></section>
 </div>
 <div class="q-band">Lỗi liên quan Bộ phận Ép</div>
 <div class="q-layout q-layout-press">
 <section class="card"><div class="card-title">Đối chiếu tỷ lệ lỗi Máy ép × Line sản xuất</div><div id="q-heat" class="heat-wrap"></div><div class="q-note">Mỗi ô: NG / số kiểm của tổ hợp Máy × Line. * Mẫu dưới 1.000 tấm. Không tính dòng chưa xác định được Line.</div></section>
 <section class="card q-section insect-section" aria-labelledby="insect-title">
   <h2 id="insect-title">Số lượt lỗi côn trùng theo ngày, ca và máy ép</h2>
-  <p class="q-note">Theo ngày kiểm tra và cột Phân ca của file Hậu kiểm. Mỗi ô đếm số lượt ghi nhận ở cột Côn trùng.</p>
+  <p class="q-note">Theo ngày ép và cột Phân ca của file Hậu kiểm, trong các dòng đã lọc theo ngày kiểm tra. Mỗi ô đếm số lượt ghi nhận ở cột Côn trùng.</p>
   <div id="insect-heat"></div>
 </section>
 </div>
@@ -2251,7 +2251,7 @@ applySkin(document.documentElement.getAttribute('data-skin'), false);
 <section class="card q-section"><div class="card-title">Các lô hàng cần xem xét <span class="unit">Top 10 theo số NG</span></div><div class="tbl-wrap"><table class="mtx"><thead><tr><th>Số lô</th><th>Ngày ép</th><th>Máy ép</th><th>Line</th><th>Kiểm (tấm)</th><th>NG</th><th>Tỷ lệ</th><th>Lỗi chính (lượt)</th><th>Mã hàng NG nhiều nhất</th><th>BTP</th></tr></thead><tbody id="q-lots"></tbody></table></div><div class="q-note">Nền cảnh báo: tỷ lệ NG ≥ 5%. BTP là số tấm bộ phận tự theo dõi, đối chiếu theo số lô (ngày ghi nhận BTP có thể khác ngày ép).</div></section>
 </div>
 <div class="q-layout ">
-<section class="card q-section"><div class="card-title">Tỷ lệ hàng lỗi theo Máy ép <span class="unit">Theo ngày kiểm tra · % tổng kiểm trong ngày</span></div><div class="q-chart q-tall"><canvas id="q-machines"></canvas></div></section>
+<section class="card q-section"><div class="card-title">Tỷ lệ hàng lỗi theo Máy ép <span class="unit">Theo ngày ép · % tổng kiểm trong ngày</span></div><div class="q-chart q-tall"><canvas id="q-machines"></canvas></div></section>
 </div>
 <div class="q-band">Loại lỗi và bộ phận phụ trách</div>
 <div class="q-layout q-layout-types">
@@ -2261,7 +2261,7 @@ applySkin(document.documentElement.getAttribute('data-skin'), false);
 </div>
 <div class="q-layout q-layout-depts">
 <section id="bp-combos-section" class="card bp-section"><h2>Cơ cấu phụ trách riêng / phối hợp</h2><p class="bp-purpose">Mỗi lượt lỗi vào một tổ hợp bộ phận, không cộng trùng giữa các tổ hợp.</p><div class="bp-combo-grid"><div class="bp-donut"><canvas id="bp-combos"></canvas></div><div id="bp-combo-table" class="bp-scroll"></div></div><p id="bp-combo-note" class="q-note"></p></section>
-<section id="bp-trend-section" class="card bp-section"><h2>Diễn biến theo tuần của từng bộ phận</h2><p class="bp-purpose">Lượt lỗi liên quan / 1.000 tấm kiểm · theo ngày kiểm tra, tuần Chủ nhật–thứ Bảy.</p><div class="bp-chart"><canvas id="bp-trend"></canvas></div><p class="q-note">Bốn màu cố định, khác kiểu nét và dấu điểm để dễ phân biệt trên mọi giao diện. Không phải tỷ lệ NG riêng của bộ phận.</p></section>
+<section id="bp-trend-section" class="card bp-section"><h2>Diễn biến theo tuần của từng bộ phận</h2><p class="bp-purpose">Lượt lỗi liên quan / 1.000 tấm kiểm · theo ngày ép, tuần Chủ nhật–thứ Bảy.</p><div class="bp-chart"><canvas id="bp-trend"></canvas></div><p class="q-note">Bốn màu cố định, khác kiểu nét và dấu điểm để dễ phân biệt trên mọi giao diện. Không phải tỷ lệ NG riêng của bộ phận.</p></section>
 <section id="bp-workload-section" class="card bp-section"><h2>Khối lượng lỗi liên quan từng bộ phận</h2><p class="bp-purpose">Tách phụ trách riêng và phối hợp; cùng một lượt lỗi có thể liên quan nhiều bộ phận.</p><div class="bp-chart"><canvas id="bp-workload"></canvas></div><p id="bp-workload-note" class="q-note"></p></section>
 </div>
 
@@ -2291,7 +2291,7 @@ el('bp-stacking-stats').innerHTML=[[stackTotal,'Lượt lỗi liên quan BP Xế
 const lineColors=['#0072B2','#E69F00','#009E73','#A23B9D'];const allLines=uniq((RAW.meta.lines||[]).concat(rows.map(r=>r.line).filter(Boolean))).sort();bpChart('bp-stacking-bars','bar',lines.map(l=>l.line),[{label:'Lượt lỗi liên quan BP Xếp',data:lines.map(l=>l.count),backgroundColor:lines.map(l=>l.line==='Chưa xác định Line'?'#8A939D':lineColors[Math.max(0,allLines.indexOf(l.line))%lineColors.length]),borderRadius:4}],{indexAxis:'y'});
 const stackMax=Math.max(1,...lines.flatMap(l=>l.errors));el('bp-stacking-heat').innerHTML=lines.length?bpTable(['Loại lỗi',...lines.map(l=>l.line),'Tổng'],stacking.map((f,i)=>'<tr><td class="bp-name">'+esc(f.label)+'</td>'+lines.map(l=>'<td style="'+(l.errors[i]?bpHeat(l.errors[i],stackMax):'background:var(--card2);color:var(--muted)')+'">'+(l.errors[i]?nf(l.errors[i]):'—')+'</td>').join('')+'<td><strong>'+nf(f.count)+'</strong></td></tr>').join('')):'<div class="bp-empty">Không có dữ liệu theo bộ lọc.</div>';
 const department=BP_NAMES.map(name=>({name,exclusive:faults.filter(f=>f.departments.length===1&&f.departments.includes(name)).reduce((s,f)=>s+f.count,0),shared:faults.filter(f=>f.departments.length>1&&f.departments.includes(name)).reduce((s,f)=>s+f.count,0)}));bpChart('bp-workload','bar',BP_NAMES,[{label:'Phụ trách riêng',data:department.map(d=>d.exclusive),backgroundColor:cssv('--c1')},{label:'Phối hợp',data:department.map(d=>d.shared),backgroundColor:cssv('--c2')+'77'}],{indexAxis:'y',stacked:true});el('bp-workload-note').textContent='BP Xếp: '+nf(stackTotal)+' lượt liên quan theo bộ lọc. Số lượt giữa các bộ phận có thể trùng nhau; không cộng để thay thế tổng NG.';
-const weekMap=new Map();for(const row of rows){const w=weekOf(row.checkDate);if(!w)continue;const month=monthOf(row.checkDate),key=row.checkDate.slice(0,7)+'|'+w;if(!weekMap.has(key))weekMap.set(key,{key,month,week:w,qty:0,counts:BP_NAMES.map(()=>0)});const a=weekMap.get(key);a.qty+=row.qty;faults.forEach(f=>BP_NAMES.forEach((dep,j)=>{if(f.departments.includes(dep))a.counts[j]+=row.errors[f.i]||0}))}const weeks=[...weekMap.values()].sort((a,b)=>a.key.localeCompare(b.key)),months=uniq(weeks.map(w=>w.month));bpChart('bp-trend','line',weeks.map(w=>w.week+(months.length>1?' · '+w.month:'')),BP_NAMES.map((name,i)=>({label:name,data:weeks.map(w=>w.qty?w.counts[i]*1000/w.qty:0),borderColor:BP_COLORS[i],backgroundColor:BP_COLORS[i],borderWidth:3,pointRadius:5,pointStyle:['circle','rect','triangle','rectRot'][i],borderDash:[[],[9,4],[3,4],[10,3,2,3]][i],tension:0})));
+const weekMap=new Map();for(const row of rows){const w=weekOf(row.date);if(!w)continue;const month=monthOf(row.date),key=row.date.slice(0,7)+'|'+w;if(!weekMap.has(key))weekMap.set(key,{key,month,week:w,qty:0,counts:BP_NAMES.map(()=>0)});const a=weekMap.get(key);a.qty+=row.qty;faults.forEach(f=>BP_NAMES.forEach((dep,j)=>{if(f.departments.includes(dep))a.counts[j]+=row.errors[f.i]||0}))}const weeks=[...weekMap.values()].sort((a,b)=>a.key.localeCompare(b.key)),months=uniq(weeks.map(w=>w.month));bpChart('bp-trend','line',weeks.map(w=>w.week+(months.length>1?' · '+w.month:'')),BP_NAMES.map((name,i)=>({label:name,data:weeks.map(w=>w.qty?w.counts[i]*1000/w.qty:0),borderColor:BP_COLORS[i],backgroundColor:BP_COLORS[i],borderWidth:3,pointRadius:5,pointStyle:['circle','rect','triangle','rectRot'][i],borderDash:[[],[9,4],[3,4],[10,3,2,3]][i],tension:0})));
 const top=[...faults].filter(f=>f.count>0).sort((a,b)=>b.count-a.count).slice(0,10),faultMax=Math.max(1,...top.map(f=>f.count));el('bp-fault-heat').innerHTML=top.length?bpTable(['Loại lỗi',...BP_NAMES],top.map(f=>'<tr><td class="bp-name">'+esc(f.label)+'</td>'+BP_NAMES.map(dep=>'<td style="'+(f.departments.includes(dep)?bpHeat(f.count,faultMax):'background:var(--bar-track);color:var(--muted)')+'">'+(f.departments.includes(dep)?nf(f.count):'—')+'</td>').join('')+'</tr>').join('')):'<div class="bp-empty">Không có lượt lỗi theo bộ lọc.</div>';
 const unassigned=faults.filter(f=>!f.departments.length).reduce((s,f)=>s+f.count,0);el('bp-unassigned-note').textContent='Chưa phân công: '+nf(unassigned)+' lượt lỗi theo bộ lọc. Một hàng có thể liên quan nhiều bộ phận, không cộng ngang để tính số NG.';
 const combos=new Map();for(const f of faults){if(!f.count)continue;const key=f.departments.length?f.departments.join(' + '):'Chưa phân công';combos.set(key,(combos.get(key)||0)+f.count)}const comboRows=[...combos].sort((a,b)=>b[1]-a[1]),total=faults.reduce((s,f)=>s+f.count,0),comboColors=comboRows.map(([key])=>key==='Chưa phân công'?cssv('--brown-soft'):key.includes(' + ')?(key.includes('BP Xếp')?cssv('--c1'):cssv('--c4')):key==='BP Ngâm tẩm'?cssv('--c2'):key==='BP Ép'?cssv('--c3'):cssv('--c6'));
@@ -2363,20 +2363,20 @@ function renderInsectHeat(rows) {
   let skipped = 0;
   let peak = 0;
   for (const row of rows) {
-    if (!row.checkDate || !['1', '2', '3'].includes(row.inspectionShift)) {
+    if (!row.date || !['1', '2', '3'].includes(row.inspectionShift)) {
       skipped++;
       continue;
     }
-    const key = [row.machine, row.inspectionShift, row.checkDate].join('|');
+    const key = [row.machine, row.inspectionShift, row.date].join('|');
     const cell = groups.get(key) || {count:0, checked:0};
     const count = row.errors[fault] || 0;
     cell.count += count;
     cell.checked += row.qty;
     groups.set(key, cell);
-    days.add(row.checkDate);
+    days.add(row.date);
     peak = Math.max(peak, cell.count);
   }
-  const omission = skipped ? ' Bỏ qua ' + nf(skipped) + ' dòng thiếu ngày kiểm tra hoặc ca.' : '';
+  const omission = skipped ? ' Bỏ qua ' + nf(skipped) + ' dòng thiếu ngày ép hoặc ca.' : '';
   if (!days.size || fault < 0) {
     target.textContent = 'Không có dữ liệu côn trùng theo ca cho bộ lọc hiện tại.' + omission;
     return;
@@ -2416,7 +2416,8 @@ function renderInsectHeat(rows) {
 function qualityRender(){if(!el('q-kpis')||!QData)return;const all=joinRows(),f=all.filter(r=>(matchF(r.checkDate?.slice(0,4),qState.year))&&(matchF(monthOf(r.checkDate),qState.month))&&(matchF(weekOf(r.checkDate),qState.week))&&(matchF(r.checkDate,qState.date))&&(matchF(r.line,qState.line))&&(qState.machine==='ALL'||r.machine===qState.machine));renderInsectHeat(f);const q=sum(f,'qty'),ng=sum(f,'ng'),lots=uniq(f.map(qKey)).length,ngLots=uniq(f.filter(r=>r.ng>0).map(qKey)).length,c=[1,2,3,4,5,6].map(i=>cssv('--c'+i)),machines=['1','2'].map(m=>f.filter(r=>r.machine===m));
 el('q-kpis').innerHTML=[['k-lots','Tổng số lượng kiểm',nf(q),'tấm · '+nf(lots)+' lô ép'],['k-btp','Tổng số hàng lỗi',nf(ng),'tấm NG · '+nf(ngLots)+' lô có lỗi'],['k-def','Tỷ lệ hàng lỗi',pf(rate(f)),'NG / tổng số lượng kiểm'],['k-qty','Máy ép 1 / Máy ép 2',machines.map(a=>pf(rate(a))).join(' / '),machines.map(a=>nf(sum(a,'ng'))+'/'+nf(sum(a,'qty'))).join(' · ')]].map(a=>'<div class="kpi '+a[0]+'"><div class="k-label">'+a[1]+'</div><div class="k-value"'+(a[0]==='k-qty'?' style="font-size:23px"':'')+'>'+a[2]+'</div><div class="k-sub">'+a[3]+'</div></div>').join('');
 renderResponsibilities(f);
-const days=uniq(f.map(r=>r.checkDate).filter(Boolean)).sort(),perDay=days.map(d=>f.filter(r=>r.checkDate===d));
+const days=uniq(f.map(r=>r.date).filter(Boolean)).sort(),perDay=days.map(d=>f.filter(r=>r.date===d));
+const inspectionDays=uniq(f.map(r=>r.checkDate).filter(Boolean)).sort();
 qChart('q-machines','bar',days.map(shortDate),[{label:'Tổng 2 máy',data:perDay.map(rate),backgroundColor:c[4]+'44',borderColor:c[4],borderWidth:1,grouped:false,barPercentage:.9,categoryPercentage:.85,order:2},...['1','2'].map((m,i)=>({label:'Máy ép '+m,data:perDay.map(a=>sum(a,'qty')?100*sum(a.filter(r=>r.machine===m),'ng')/sum(a,'qty'):0),backgroundColor:c[i],barPercentage:.65,order:1}))],{average:rate(f)});
 const joined=f.filter(r=>r.line),lines=uniq(joined.map(r=>r.line)).sort(),valid=joined; qChart('q-lines','bar',days.map(shortDate),lines.map((l,i)=>({label:lineName(l)+' · '+pf(rate(valid.filter(r=>r.line===l))),data:perDay.map(a=>{const b=a.filter(r=>r.line===l);return sum(b,'qty')>=50?rate(b):null}),backgroundColor:c[i%c.length]})),{average:rate(valid)});
 const missing=f.filter(r=>!r.line);el('q-line-note').textContent='Đối chiếu theo Số lô + Mã hàng; ưu tiên ngày ép trùng. Chưa xác định duy nhất Line: '+nf(missing.length)+' dòng / '+nf(sum(missing,'qty'))+' tấm (không đưa vào biểu đồ Line và bảng nhiệt). Biểu đồ ẩn nhóm ngày/Line dưới 50 tấm.';
@@ -2425,7 +2426,7 @@ qChart('q-pareto','bar',errors.map(r=>r.label),machines.map((a,i)=>({label:'Máy
 el('q-heat').innerHTML='<table class="q-heat"><thead><tr><th>Line</th><th>Máy ép 1</th><th>Máy ép 2</th></tr></thead><tbody>'+lines.map(l=>'<tr><th>'+esc(lineName(l))+'</th>'+['1','2'].map(m=>{const a=valid.filter(r=>r.line===l&&r.machine===m),qty=sum(a,'qty'),v=rate(a),level=v<1?1:v<1.5?2:v<2?3:4;return '<td style="background:var(--heat'+level+');color:'+(level>=3?'white':'var(--text)')+'">'+(qty?pf(v)+(qty<1000?'*':''):'—')+'<small>'+nf(sum(a,'ng'))+'/'+nf(qty)+'</small></td>'}).join('')+'</tr>').join('')+'</tbody></table>'+(lines.length?'':'<div class="q-notice">Chưa có dữ liệu đối chiếu Line. Cập nhật dữ liệu sản xuất hoặc kiểm tra kết nối.</div>');
 const groups=[['Rác / bụi',[8,9,10,11,12,13,14]],['Dơ / vệt',[3,4,5,6,7]],['Máy / giấy / keo',[25,26,30,31,32,33,34]],['Côn trùng / QT trước / khác',[15,16,17]],['Lông',[0,1,2]],['Cơ học (trầy, rách, nứt...)',[18,19,20,21,22,23,24,27,28,29]]].map(([name,ix])=>({name,qty:f.reduce((s,r)=>s+ix.reduce((t,i)=>t+r.errors[i],0),0)}));const total=sum(groups,'qty');qChart('q-donut','doughnut',groups.map(g=>g.name),[{label:'Lượt lỗi',data:groups.map(g=>g.qty),backgroundColor:c,borderColor:cssv('--card'),borderWidth:2}],{cutout:'65%',plugins:{legend:{display:false}}});el('q-groups').innerHTML=groups.map((g,i)=>'<tr><td><i class="q-swatch" style="background:'+c[i]+'"></i>'+esc(g.name)+'</td><td>'+nf(g.qty)+'</td><td>'+pf(total?100*g.qty/total:0)+'</td></tr>').join('');
 const lotMap=new Map();for(const r of f){const key=qKey(r);if(!lotMap.has(key))lotMap.set(key,[]);lotMap.get(key).push(r)}const top=[...lotMap.values()].filter(a=>sum(a,'ng')>0).sort((a,b)=>sum(b,'ng')-sum(a,'ng')||rate(b)-rate(a)).slice(0,10);el('q-lots').innerHTML=top.map(a=>{const r=a[0],errs=QData.labels.map((name,i)=>({name,qty:a.reduce((s,r)=>s+r.errors[i],0)})).sort((a,b)=>b.qty-a.qty),codes=new Map();a.forEach(r=>codes.set(r.code,(codes.get(r.code)||0)+r.ng));const code=[...codes].sort((a,b)=>b[1]-a[1])[0],btp=(RAW.btp||[]).filter(b=>normLot(b.lot)===normLot(r.lot)),ls=uniq(a.map(r=>r.line).filter(Boolean));return '<tr'+(rate(a)>=5?' class="q-alert"':'')+'><td><strong>'+esc(r.lot)+'</strong></td><td>'+shortDate(r.date)+'</td><td>Máy '+r.machine+'</td><td>'+esc(ls.join(' + ')||'Chưa rõ')+'</td><td>'+nf(sum(a,'qty'))+'</td><td>'+nf(sum(a,'ng'))+'</td><td>'+pf(rate(a))+'</td><td>'+esc(errs[0]?.qty?errs[0].name+' ('+nf(errs[0].qty)+')':'—')+'</td><td>'+esc(code?code[0]+' ('+nf(code[1])+')':'—')+'</td><td>'+(btp.length?'Có · '+nf(sum(btp,'qty')):'—')+'</td></tr>'}).join('')||'<tr><td colspan="10">Không có lô NG trong bộ lọc.</td></tr>';
-el('q-source').textContent=QOrigin+' · '+QData.source+(days.length?' · '+shortDate(days[0])+' – '+shortDate(days.at(-1))+'/'+days.at(-1).slice(0,4):' · Không có dữ liệu theo bộ lọc');el('q-stamp').textContent=QStamp?'Cập nhật '+new Date(QStamp).toLocaleString('vi-VN'):'';
+el('q-source').textContent=QOrigin+' · '+QData.source+(inspectionDays.length?' · '+shortDate(inspectionDays[0])+' – '+shortDate(inspectionDays.at(-1))+'/'+inspectionDays.at(-1).slice(0,4):' · Không có dữ liệu theo bộ lọc');el('q-stamp').textContent=QStamp?'Cập nhật '+new Date(QStamp).toLocaleString('vi-VN'):'';
 }
 function apiHeaders(){const cfg=window.APP_CONFIG,h={apikey:cfg.SUPABASE_ANON_KEY,'Content-Type':'application/json'};if(cfg.SUPABASE_ANON_KEY.startsWith('eyJ'))h.Authorization='Bearer '+cfg.SUPABASE_ANON_KEY;return h}
 async function api(route,body){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),body?120000:25000);try{const res=await fetch(window.APP_CONFIG.SUPABASE_URL+'/rest/v1/'+route,{method:body?'POST':'GET',headers:apiHeaders(),body:body?JSON.stringify(body):undefined,signal:controller.signal});const text=await res.text();let data;try{data=JSON.parse(text)}catch{}if(!res.ok)throw new Error(data?.message||'HTTP '+res.status);return data}finally{clearTimeout(timer)}}
