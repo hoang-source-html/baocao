@@ -2188,18 +2188,19 @@ function refresh() {
 
   // Heatmap
   const days = [...new Set(tgF.map(dk))].sort((a,b) => a-b);
+  const heatDays = [...days].reverse();
   const lines = RAW.meta.lines;
   const matrix = {};
   lines.forEach(l => {
     matrix[l] = {};
-    days.forEach(d => {
+    heatDays.forEach(d => {
       matrix[l][d] = tgF.filter(r => r.line === l && dk(r) === d).reduce((s,r) => s + r.minutes, 0);
     });
   });
-  let ht = '<tr><th></th>' + days.map(d => '<th>' + dlabel(d) + '</th>').join('') + '</tr>';
+  let ht = '<tr><th></th>' + heatDays.map(d => '<th>' + dlabel(d) + '</th>').join('') + '</tr>';
   lines.forEach(l => {
     ht += '<tr><td class="line-label">' + l + '</td>';
-    days.forEach(d => {
+    heatDays.forEach(d => {
       const v = Math.round(matrix[l][d] || 0);
       if (v <= 0) {
         ht += '<td><span class="heat-cell" style="background:var(--bar-track);color:transparent">·</span></td>';
